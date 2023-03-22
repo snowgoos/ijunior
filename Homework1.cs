@@ -1,6 +1,6 @@
 ﻿namespace ijunior
 {
-    internal class Program
+    internal class Homework1
     {
         static void Main(string[] args)
         {
