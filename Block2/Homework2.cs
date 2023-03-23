@@ -18,7 +18,7 @@ namespace ijunior.Block2
                 Console.Write("Please enter stop word: ");
                 userInput = Console.ReadLine();
 
-                if (userInput == loopStopWord) 
+                if (userInput == loopStopWord)
                 {
                     Console.WriteLine("Loop stopped");
                     break;
