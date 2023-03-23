@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ijunior
+namespace ijunior.Block1
 {
     internal class Homework4
     {

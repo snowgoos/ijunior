@@ -1,4 +1,4 @@
-﻿namespace ijunior
+﻿namespace ijunior.Block1
 {
     internal class Homework1
     {
