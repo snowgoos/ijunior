@@ -15,15 +15,16 @@ namespace ijunior.Block2
             int numberSumma = number;
             int multiplesThree = 3;
             int multiplesFive = 5;
+            int zero = 0;
 
             for (int i = 0; i < number; i++)
             {
-                if (i % multiplesThree == 0)
+                if (i % multiplesThree == zero)
                 {
                     numberSumma += i;
                 }
 
-                if (i % multiplesFive == 0)
+                if (i % multiplesFive == zero)
                 {
                     numberSumma += i;
                 }
