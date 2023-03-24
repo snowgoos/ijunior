@@ -11,20 +11,16 @@ namespace ijunior.Block2
         static void Main(string[] args)
         {
             Random random = new Random();
-            int number = random.Next(0, 100);
+            int startRandomRange = 0;
+            int endRandomRange = 100;
+            int number = random.Next(startRandomRange, endRandomRange);
             int numberSumma = number;
-            int multiplesThree = 3;
-            int multiplesFive = 5;
-            int zero = 0;
+            int firstMultiple = 3;
+            int secondMultiple = 5;
 
             for (int i = 0; i < number; i++)
             {
-                if (i % multiplesThree == zero)
-                {
-                    numberSumma += i;
-                }
-
-                if (i % multiplesFive == zero)
+                if (i % firstMultiple == 0 || i % secondMultiple == 0)
                 {
                     numberSumma += i;
                 }

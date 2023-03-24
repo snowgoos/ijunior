@@ -10,20 +10,16 @@ namespace ijunior.Block2
     {
         static void Main(string[] args)
         {
-            string userInput;
+            string userInput = "";
             string loopStopWord = "exit";
 
-            while (true)
+            while (userInput != loopStopWord)
             {
                 Console.Write("Please enter stop word: ");
                 userInput = Console.ReadLine();
-
-                if (userInput == loopStopWord)
-                {
-                    Console.WriteLine("Loop stopped");
-                    break;
-                }
             }
+
+            Console.WriteLine("Loop stopped");
         }
     }
 }

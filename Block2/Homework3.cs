@@ -10,14 +10,11 @@ namespace ijunior.Block2
     {
         static void Main(string[] args)
         {
-            int iterationCount;
             int number = 5;
             int numberToIncrease = 7;
+            int numberThreshold = 100;
 
-            Console.Write("Please enter iteration count: ");
-            iterationCount = Convert.ToInt32(Console.ReadLine());
-
-            for (int i = 0; i < iterationCount; i++)
+            while (number < numberThreshold)
             {
                 Console.WriteLine(number);
                 number += numberToIncrease;

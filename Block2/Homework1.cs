@@ -10,15 +10,15 @@ namespace ijunior.Block2
     {
         static void Main(string[] args)
         {
-            int iterationCount;
+            int iterationsCount;
             string userMessage;
 
             Console.WriteLine("Please enter your message:");
             userMessage = Console.ReadLine();
             Console.Write("Please enter how many times repeat the message: ");
-            iterationCount = Convert.ToInt32(Console.ReadLine());
+            iterationsCount = Convert.ToInt32(Console.ReadLine());
 
-            for (int i = 0; i < iterationCount; i++)
+            for (int i = 0; i < iterationsCount; i++)
             {
                 Console.WriteLine(userMessage);
             }

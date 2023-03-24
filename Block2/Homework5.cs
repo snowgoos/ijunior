@@ -10,6 +10,13 @@ namespace ijunior.Block2
     {
         static void Main(string[] args)
         {
+            const byte EurToUsdExchangeType = 1;
+            const byte EurToPlnExchangeType = 2;
+            const byte UsdToEurExchangeType = 3;
+            const byte UsdToPlnExchangeType = 4;
+            const byte PlnToEurExchangeType = 5;
+            const byte PlnToUsdExchangeType = 6;
+
             float eurCount;
             float usdCount;
             float plnCount;
@@ -20,14 +27,8 @@ namespace ijunior.Block2
             float plnToEurExchangePrice = 90;
             float plnToUsdExchangePrice = 85;
             float exchangeCount;
-            byte eurToUsdExchangeType = 1;
-            byte eurToPlnExchangeType = 2;
-            byte usdToEurExchangeType = 3;
-            byte usdToPlnExchangeType = 4;
-            byte plnToEurExchangeType = 5;
-            byte plnToUsdExchangeType = 6;
             byte exitType = 7;
-            byte exchangeType;
+            byte exchangeType = 0;
 
             Console.Write("Please enter your EUR count: ");
             eurCount = Convert.ToSingle(Console.ReadLine());
@@ -36,27 +37,22 @@ namespace ijunior.Block2
             Console.Write("Please enter your PLN count: ");
             plnCount = Convert.ToSingle(Console.ReadLine());
 
-            while (true)
+            while (exchangeType != exitType)
             {
                 Console.WriteLine("Please select the operation:");
-                Console.WriteLine($"{eurToUsdExchangeType} - Convert EUR to USD");
-                Console.WriteLine($"{eurToPlnExchangeType} - Convert EUR to PLN");
-                Console.WriteLine($"{usdToEurExchangeType} - Convert USD to EUR");
-                Console.WriteLine($"{usdToPlnExchangeType} - Convert USD to PLN");
-                Console.WriteLine($"{plnToEurExchangeType} - Convert PLN to EUR");
-                Console.WriteLine($"{plnToUsdExchangeType} - Convert PLN to USD");
+                Console.WriteLine($"{EurToUsdExchangeType} - Convert EUR to USD");
+                Console.WriteLine($"{EurToPlnExchangeType} - Convert EUR to PLN");
+                Console.WriteLine($"{UsdToEurExchangeType} - Convert USD to EUR");
+                Console.WriteLine($"{UsdToPlnExchangeType} - Convert USD to PLN");
+                Console.WriteLine($"{PlnToEurExchangeType} - Convert PLN to EUR");
+                Console.WriteLine($"{PlnToUsdExchangeType} - Convert PLN to USD");
                 Console.WriteLine($"{exitType} - Exit");
 
                 exchangeType = Convert.ToByte(Console.ReadLine());
 
-                if (exchangeType == exitType)
-                {
-                    break;
-                }
-
                 switch (exchangeType)
                 {
-                    case 1:
+                    case EurToUsdExchangeType:
                         Console.Write("Please enter how much do you want to exchange:");
                         exchangeCount = Convert.ToSingle(Console.ReadLine());
 
@@ -71,7 +67,7 @@ namespace ijunior.Block2
                         }
 
                         break;
-                    case 2:
+                    case EurToPlnExchangeType:
                         Console.Write("Please enter how much do you want to exchange:");
                         exchangeCount = Convert.ToSingle(Console.ReadLine());
 
@@ -86,7 +82,7 @@ namespace ijunior.Block2
                         }
 
                         break;
-                    case 3:
+                    case UsdToEurExchangeType:
                         Console.Write("Please enter how much do you want to exchange:");
                         exchangeCount = Convert.ToSingle(Console.ReadLine());
 
@@ -101,7 +97,7 @@ namespace ijunior.Block2
                         }
 
                         break;
-                    case 4:
+                    case UsdToPlnExchangeType:
                         Console.Write("Please enter how much do you want to exchange:");
                         exchangeCount = Convert.ToSingle(Console.ReadLine());
 
@@ -116,7 +112,7 @@ namespace ijunior.Block2
                         }
 
                         break;
-                    case 5:
+                    case PlnToEurExchangeType:
                         Console.Write("Please enter how much do you want to exchange:");
                         exchangeCount = Convert.ToSingle(Console.ReadLine());
 
@@ -131,7 +127,7 @@ namespace ijunior.Block2
                         }
 
                         break;
-                    case 6:
+                    case PlnToUsdExchangeType:
                         Console.Write("Please enter how much do you want to exchange:");
                         exchangeCount = Convert.ToSingle(Console.ReadLine());
 
@@ -147,7 +143,11 @@ namespace ijunior.Block2
 
                         break;
                     default:
-                        Console.WriteLine("Incorrect operation.");
+                        if (exchangeType != exitType)
+                        {
+                            Console.WriteLine("Incorrect operation.");
+                        }
+
                         break;
                 }
 
