@@ -10,14 +10,13 @@ namespace ijunior.Block2
     {
         static void Main(string[] args)
         {
-            int number = 5;
+            int startNumber = 5;
             int numberToIncrease = 7;
             int numberThreshold = 96;
 
-            for (int i = number; i <= numberThreshold; i += numberToIncrease)
+            for (int i = startNumber; i <= numberThreshold; i += numberToIncrease)
             {
-                Console.WriteLine(number);
-                number += numberToIncrease;
+                Console.WriteLine(i);
             }
         }
     }
