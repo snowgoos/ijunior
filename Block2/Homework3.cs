@@ -12,9 +12,9 @@ namespace ijunior.Block2
         {
             int number = 5;
             int numberToIncrease = 7;
-            int numberThreshold = 100;
+            int numberThreshold = 96;
 
-            while (number < numberThreshold)
+            for (int i = number; i <= numberThreshold; i += numberToIncrease)
             {
                 Console.WriteLine(number);
                 number += numberToIncrease;
