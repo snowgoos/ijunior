@@ -12,7 +12,7 @@ namespace ijunior.Block2
         {
             int number = 2;
             int power = 1;
-            int numberInPower = number;
+            int numberInPower = number * power;
 
             Random random = new Random();
             int minRandomNumber = 1;
