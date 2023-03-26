@@ -12,8 +12,7 @@ namespace ijunior.Block2
         {
             string brackets;
             char openBracket = '(';
-            int openBracketsCount = 0;
-            int closeBracketsCount = 0;
+            int bracketsCount = 0;
             int bracketsDeepLevel = 0;
             int maxBracketsDeepLevel = bracketsDeepLevel;
 
@@ -24,7 +23,7 @@ namespace ijunior.Block2
             {
                 if (symbol == openBracket)
                 {
-                    openBracketsCount++;
+                    bracketsCount++;
                     bracketsDeepLevel++;
 
                     if (maxBracketsDeepLevel < bracketsDeepLevel)
@@ -34,12 +33,17 @@ namespace ijunior.Block2
                 }
                 else
                 {
-                    closeBracketsCount++;
+                    bracketsCount--;
                     bracketsDeepLevel--;
+                }
+
+                if (bracketsDeepLevel < 0)
+                {
+                    break;
                 }
             }
 
-            if (openBracketsCount == closeBracketsCount)
+            if (bracketsDeepLevel >= 0 && bracketsCount == 0)
             {
                 Console.WriteLine("Brackets is correct");
                 Console.WriteLine($"Deep level: {maxBracketsDeepLevel}");
