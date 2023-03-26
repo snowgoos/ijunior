@@ -19,7 +19,7 @@ namespace ijunior.Block2
 
             Console.WriteLine($"Random number: {number}");
 
-            for (int i = 0; i <= maxRange; i+= number)
+            for (int i = 0; i <= maxRange; i += number)
             {
                 if (i >= minRange && i <= maxRange)
                 {
