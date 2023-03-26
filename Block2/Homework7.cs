@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ijunior.Block2
 {
@@ -12,19 +13,32 @@ namespace ijunior.Block2
         {
             string userName;
             string borderSign;
+            string nameRowWithBorder;
+            int nameRowLengthWithBorder;
             int rowsCount = 3;
-            int borderWidth = 1;
 
             Console.Write("Please enter your name: ");
             userName = Console.ReadLine();
             Console.Write("Please enter sign for border: ");
             borderSign = Console.ReadLine();
 
+            nameRowWithBorder = $"{borderSign} {userName} {borderSign}";
+            nameRowLengthWithBorder = (nameRowWithBorder).Length;
+
             for (int i = 0; i < rowsCount; i++)
             {
-                Console.WriteLine(borderSign);
-
-                Console.WriteLine(borderSign);
+                if (i == 1)
+                {
+                    Console.WriteLine(nameRowWithBorder);
+                }
+                else
+                {
+                    for (int k = 0; k < nameRowLengthWithBorder; k++)
+                    {
+                        Console.Write(borderSign);
+                    }
+                    Console.WriteLine();
+                }
             }
         }
     }
