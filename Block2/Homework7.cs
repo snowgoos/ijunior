@@ -16,6 +16,7 @@ namespace ijunior.Block2
             string nameRowWithBorder;
             int nameRowLengthWithBorder;
             int rowsCount = 3;
+            int rowWithName = 1;
 
             Console.Write("Please enter your name: ");
             userName = Console.ReadLine();
@@ -27,7 +28,7 @@ namespace ijunior.Block2
 
             for (int i = 0; i < rowsCount; i++)
             {
-                if (i == 1)
+                if (i == rowWithName)
                 {
                     Console.WriteLine(nameRowWithBorder);
                 }
