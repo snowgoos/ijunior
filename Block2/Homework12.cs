@@ -64,6 +64,7 @@ namespace ijunior.Block2
                         }
 
                         break;
+
                     case CommandDarkSpiritSpell:
                         playerHp -= bossDamage;
                         bossHp -= darkSpiritDamage;
@@ -72,6 +73,7 @@ namespace ijunior.Block2
                         Console.WriteLine($"Boss get damage: {darkSpiritDamage}");
 
                         break;
+
                     case CommandDamageReflectSpell:
                         playerHp -= bossDamage;
 
@@ -89,6 +91,7 @@ namespace ijunior.Block2
                         }
 
                         break;
+
                     case CommandInvisibilitySpell:
                         if (invisibilityHealingCastLimit > 0)
                         {
@@ -109,6 +112,7 @@ namespace ijunior.Block2
                         }
 
                         break;
+
                     default:
                         Console.WriteLine();
 
