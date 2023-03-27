@@ -10,13 +10,13 @@ namespace ijunior.Block2
     {
         static void Main(string[] args)
         {
-            const byte FireballSpell = 1;
-            const byte DarkSpiritSpell = 2;
-            const byte DamageReflectSpell = 3;
-            const byte InvisibilitySpell = 4;
-            byte playerSelectedAtack;
+            const byte CommandFireballSpell = 1;
+            const byte CommandDarkSpiritSpell = 2;
+            const byte CommandDamageReflectSpell = 3;
+            const byte CommandInvisibilitySpell = 4;
 
             Random random = new Random();
+            byte playerSelectedAtack;
             float playerHp = 100;
             int playerMaxHp = 100;
             int playerHpForCritAttack = 40;
@@ -38,16 +38,16 @@ namespace ijunior.Block2
             while (playerHp > 0 && bossHp > 0)
             {
                 Console.WriteLine("Please select attack type:");
-                Console.WriteLine($"{FireballSpell} - Cast fireball spell");
-                Console.WriteLine($"{DarkSpiritSpell} - Cast dark spirit spell");
-                Console.WriteLine($"{DamageReflectSpell} - Cast damage reflect spell");
-                Console.WriteLine($"{InvisibilitySpell} - Cast invisibility spell");
+                Console.WriteLine($"{CommandFireballSpell} - Cast fireball spell");
+                Console.WriteLine($"{CommandDarkSpiritSpell} - Cast dark spirit spell");
+                Console.WriteLine($"{CommandDamageReflectSpell} - Cast damage reflect spell");
+                Console.WriteLine($"{CommandInvisibilitySpell} - Cast invisibility spell");
 
                 playerSelectedAtack = Convert.ToByte(Console.ReadLine());
 
                 switch (playerSelectedAtack)
                 {
-                    case FireballSpell:
+                    case CommandFireballSpell:
                         playerHp -= bossDamage;
 
                         if (playerHp <= playerHpForCritAttack)
@@ -64,7 +64,7 @@ namespace ijunior.Block2
                         }
 
                         break;
-                    case DarkSpiritSpell:
+                    case CommandDarkSpiritSpell:
                         playerHp -= bossDamage;
                         bossHp -= darkSpiritDamage;
                         isDarkSpiritActive = true;
@@ -72,7 +72,7 @@ namespace ijunior.Block2
                         Console.WriteLine($"Boss get damage: {darkSpiritDamage}");
 
                         break;
-                    case DamageReflectSpell:
+                    case CommandDamageReflectSpell:
                         playerHp -= bossDamage;
 
                         if (isDarkSpiritActive)
@@ -89,7 +89,7 @@ namespace ijunior.Block2
                         }
 
                         break;
-                    case InvisibilitySpell:
+                    case CommandInvisibilitySpell:
                         if (invisibilityHealingCastLimit > 0)
                         {
                             playerHp += invisibilityHealing;
@@ -115,7 +115,7 @@ namespace ijunior.Block2
                         break;
                 }
 
-                if (!invisibilityHealingActive)
+                if (invisibilityHealingActive == false)
                 {
                     Console.WriteLine($"Player get damage: {bossDamage}");
                 }
