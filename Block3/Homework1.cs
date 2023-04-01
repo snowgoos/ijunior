@@ -10,7 +10,7 @@ namespace ijunior.Block3
     {
         static void Main(string[] args)
         {
-            int[,] array = {
+            int[,] numbers = {
                 {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
                 {5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
                 {7, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
@@ -22,20 +22,24 @@ namespace ijunior.Block3
             int secondRowSum = 0;
             int firstColumnMultiplication = 1;
 
-            for (int i = 0; i < array.GetLength(rowDimension); i++)
+            for (int i = 0; i < numbers.GetLength(rowDimension); i++)
             {
-                for (int k = 0; k < array.GetLength(columnDimension); k++)
+                for (int k = 0; k < numbers.GetLength(columnDimension); k++)
                 {
                     if (i == rowIndexForSum)
                     {
-                        secondRowSum += array[i, k];
-                    }
-                    if (k == columnIndexForMultiplication)
-                    {
-                        firstColumnMultiplication *= array[i, k];
+                        secondRowSum += numbers[i, k];
                     }
 
-                    Console.Write($"{array[i, k]} ");
+                    Console.Write($"{numbers[i, k]} ");
+                }
+
+                for (int k = 0; k < numbers.GetLength(columnDimension); k++)
+                {
+                    if (k == columnIndexForMultiplication)
+                    {
+                        firstColumnMultiplication *= numbers[i, k];
+                    }
                 }
 
                 Console.WriteLine();
