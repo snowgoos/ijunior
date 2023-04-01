@@ -13,6 +13,8 @@ namespace ijunior.Block3
             string[] words;
             string userInput;
 
+            Console.WriteLine("Please enter text");
+
             userInput = Console.ReadLine();
             words = userInput.Split(" ");
 
