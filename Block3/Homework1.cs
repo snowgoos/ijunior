@@ -34,6 +34,11 @@ namespace ijunior.Block3
                     Console.Write($"{numbers[i, k]} ");
                 }
 
+                Console.WriteLine();
+            }
+
+            for (int i = 0; i < numbers.GetLength(rowDimension); i++)
+            {
                 for (int k = 0; k < numbers.GetLength(columnDimension); k++)
                 {
                     if (k == columnIndexForMultiplication)
@@ -41,8 +46,6 @@ namespace ijunior.Block3
                         firstColumnMultiplication *= numbers[i, k];
                     }
                 }
-
-                Console.WriteLine();
             }
 
             Console.WriteLine($"Second row sum: {secondRowSum}");

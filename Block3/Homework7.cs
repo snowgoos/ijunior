@@ -11,12 +11,13 @@ namespace ijunior.Block3
         static void Main(string[] args)
         {
             string[] words;
+            char wordsSeparator = ' ';
             string userInput;
 
             Console.WriteLine("Please enter text");
 
             userInput = Console.ReadLine();
-            words = userInput.Split(" ");
+            words = userInput.Split(wordsSeparator);
 
             foreach (string word in words)
             {

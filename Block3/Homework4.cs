@@ -14,9 +14,7 @@ namespace ijunior.Block3
             const string CommandExit = "exit";
 
             int[] number = { };
-            int[] tempNumber;
             int indexStep = 1;
-            int numbersSum = 0;
             string userInput;
             int userInputNumber;
             bool isExitInput = false;
@@ -31,21 +29,23 @@ namespace ijunior.Block3
                 switch (userInput)
                 {
                     case CommandSum:
+                        int numbersSum = 0;
+
                         for (int i = 0; i < number.Length; i++)
                         {
                             numbersSum += number[i];
                         }
 
                         Console.WriteLine($"All number sum in array: {numbersSum}");
-
                         break;
 
                     case CommandExit:
                         isExitInput = true;
-
                         break;
 
                     default:
+                        int[] tempNumber;
+
                         userInputNumber = Convert.ToInt32(userInput);
                         tempNumber = new int[number.Length + indexStep];
 
@@ -56,7 +56,6 @@ namespace ijunior.Block3
 
                         tempNumber[tempNumber.Length - indexStep] = userInputNumber;
                         number = tempNumber;
-
                         break;
                 }
             }
@@ -67,8 +66,6 @@ namespace ijunior.Block3
             {
                 Console.Write($"{number[i]} ");
             }
-
-            Console.Write($"\nNumbers sum: {numbersSum}");
         }
     }
 }

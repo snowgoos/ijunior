@@ -48,7 +48,6 @@ namespace ijunior.Block3
             {
                 Console.WriteLine(numbers[lastIndex]);
             }
-
         }
     }
 }
