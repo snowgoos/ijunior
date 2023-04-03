@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>ijunior.Block3.Homework1</StartupObject>
+    <StartupObject>ijunior.Block4.Homework1</StartupObject>
   </PropertyGroup>
 
 </Project>
