@@ -15,37 +15,27 @@ namespace ijunior.Block3
                 {5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
                 {7, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
             };
-            byte rowDimension = 0;
-            byte columnDimension = 1;
-            int rowIndexForSum = 1;
-            int columnIndexForMultiplication = 0;
             int secondRowSum = 0;
             int firstColumnMultiplication = 1;
 
-            for (int i = 0; i < numbers.GetLength(rowDimension); i++)
+            for (int i = 0; i < numbers.GetLength(0); i++)
             {
-                for (int k = 0; k < numbers.GetLength(columnDimension); k++)
+                for (int k = 0; k < numbers.GetLength(1); k++)
                 {
-                    if (i == rowIndexForSum)
-                    {
-                        secondRowSum += numbers[i, k];
-                    }
-
                     Console.Write($"{numbers[i, k]} ");
                 }
 
                 Console.WriteLine();
             }
 
-            for (int i = 0; i < numbers.GetLength(rowDimension); i++)
+            for (int i = 0; i < numbers.GetLength(0); i++)
             {
-                for (int k = 0; k < numbers.GetLength(columnDimension); k++)
-                {
-                    if (k == columnIndexForMultiplication)
-                    {
-                        firstColumnMultiplication *= numbers[i, k];
-                    }
-                }
+                firstColumnMultiplication *= numbers[i, 0];
+            }
+
+            for (int i = 0; i < numbers.GetLength(1); i++)
+            {
+                secondRowSum += numbers[1, i];
             }
 
             Console.WriteLine($"Second row sum: {secondRowSum}");
