@@ -15,6 +15,8 @@ namespace ijunior.Block3
                 {5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
                 {7, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
             };
+            int secondRow = 1;
+            int firstColumn = 0;
             int secondRowSum = 0;
             int firstColumnMultiplication = 1;
 
@@ -30,12 +32,12 @@ namespace ijunior.Block3
 
             for (int i = 0; i < numbers.GetLength(0); i++)
             {
-                firstColumnMultiplication *= numbers[i, 0];
+                firstColumnMultiplication *= numbers[i, firstColumn];
             }
 
             for (int i = 0; i < numbers.GetLength(1); i++)
             {
-                secondRowSum += numbers[1, i];
+                secondRowSum += numbers[secondRow, i];
             }
 
             Console.WriteLine($"Second row sum: {secondRowSum}");
