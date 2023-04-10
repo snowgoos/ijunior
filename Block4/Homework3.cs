@@ -14,11 +14,11 @@ namespace ijunior.Block4
 
             while (isParsed == false)
             {
-                parsedStringToInt(ref isParsed);
+                ParsedStringToInt(ref isParsed);
             }
         }
 
-        static void parsedStringToInt(ref bool isParsed)
+        static void ParsedStringToInt(ref bool isParsed)
         {
             string userInput;
             int parsedNumber;
