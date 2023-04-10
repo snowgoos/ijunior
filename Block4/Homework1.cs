@@ -10,15 +10,15 @@ namespace ijunior.Block4
     {
         static void Main(string[] args)
         {
-            const byte AddCustomerCommand = 1;
-            const byte ShowCustomersCommand = 2;
-            const byte RemoveCustomerCommand = 3;
-            const byte SearchCustomerCommand = 4;
-            const byte ExitCommand = 5;
+            const string AddCustomerCommand = "1";
+            const string ShowCustomersCommand = "2";
+            const string RemoveCustomerCommand = "3";
+            const string SearchCustomerCommand = "4";
+            const string ExitCommand = "5";
 
             string[] customers = { };
             string[] customerTitles = { };
-            byte userInput;
+            string userInput;
             bool isExit = false;
 
             while (isExit == false)
@@ -30,7 +30,7 @@ namespace ijunior.Block4
                 Console.WriteLine($"{SearchCustomerCommand}. Search custumer bu surname");
                 Console.WriteLine($"{ExitCommand}. Exit");
 
-                userInput = Convert.ToByte(Console.ReadLine());
+                userInput = Console.ReadLine();
 
                 switch (userInput)
                 {
@@ -47,11 +47,11 @@ namespace ijunior.Block4
                         break;
 
                     case SearchCustomerCommand:
-                        SearchCustomer(customers);
+                        SearchCustomer(customers, customerTitles);
                         break;
 
                     case ExitCommand:
-                        Exit(ref isExit);
+                        isExit = Exit();
                         break;
                 }
             }
@@ -59,22 +59,8 @@ namespace ijunior.Block4
 
         static void AddCustomer(ref string[] customers, ref string[] customerTitles)
         {
-            AddCustomerFullname(ref customers);
-            AddCustomerTitle(ref customerTitles);
-        }
-
-        static void AddCustomerFullname(ref string[] customers)
-        {
-            string message = "Please enter customer name and surname:";
-
-            customers = ExpandStringArray(customers, message);
-        }
-
-        static void AddCustomerTitle(ref string[] customerTitles)
-        {
-            string message = "Please enter customer title:";
-
-            customerTitles = ExpandStringArray(customerTitles, message);
+            customers = ExpandStringArray(customers, "Please enter customer name and surname:");
+            customerTitles = ExpandStringArray(customerTitles, "Please enter customer title:");
         }
 
         static string[] ExpandStringArray(string[] array, string message)
@@ -108,17 +94,7 @@ namespace ijunior.Block4
 
         static void RemoveCustomer(ref string[] customers, ref string[] customerTitles)
         {
-            RemoveCustomerFullname(ref customers);
-            RemoveCustomerTitle(ref customerTitles);
-        }
-
-        static void RemoveCustomerFullname(ref string[] customers)
-        {
             customers = DecreaseStringArray(customers);
-        }
-
-        static void RemoveCustomerTitle(ref string[] customerTitles)
-        {
             customerTitles = DecreaseStringArray(customerTitles);
         }
 
@@ -143,12 +119,14 @@ namespace ijunior.Block4
             return tempArray;
         }
 
-        static void SearchCustomer(string[] customers)
+        static void SearchCustomer(string[] customers, string[] cutomerTitles)
         {
             char wordSeparator = ' ';
             string[] fullname;
             string surname;
+            bool isCustomerFound = false;
             string userInput;
+            int customerIndex = 0;
 
             Console.WriteLine("Please enter customer surname");
             userInput = Console.ReadLine().ToLower();
@@ -160,16 +138,25 @@ namespace ijunior.Block4
 
                 if (surname == userInput)
                 {
-                    Console.WriteLine(customer);
+                    isCustomerFound = true;
+
+                    Console.WriteLine($"{customer} - {cutomerTitles[customerIndex]}");
                 }
+
+                customerIndex++;
+            }
+
+            if (isCustomerFound == false)
+            {
+                Console.WriteLine("Customer not found.");
             }
 
             Console.WriteLine();
         }
 
-        static void Exit(ref bool isExit)
+        static bool Exit()
         {
-            isExit = true;
+            return true;
         }
     }
 }

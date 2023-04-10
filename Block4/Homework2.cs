@@ -12,13 +12,15 @@ namespace ijunior.Block4
         {
             int maxValue = 10;
             int currentValue = 4;
+            int positionX = 5;
+            int positionY = 10;
 
-
-            DrawBar(currentValue, maxValue);
+            DrawBar(currentValue, maxValue, positionX, positionY);
         }
 
-        static void DrawBar(int value, int maxValue)
+        static void DrawBar(int value, int maxValue, int positionX = 0, int positionY = 0)
         {
+            Console.SetCursorPosition(positionY, positionX);
             Console.Write("[");
 
             for (int i = 0; i < maxValue; i++)
@@ -27,7 +29,7 @@ namespace ijunior.Block4
                 {
                     Console.Write("#");
                 }
-                else 
+                else
                 {
                     Console.Write("_");
                 }
