@@ -10,32 +10,33 @@ namespace ijunior.Block4
     {
         static void Main(string[] args)
         {
+            int parsedNumber = ParsedStringToInt();
+
+            Console.WriteLine(parsedNumber);
+        }
+
+        static int ParsedStringToInt()
+        {
+            string userInput;
+            int parsedNumber = 0;
             bool isParsed = false;
 
             while (isParsed == false)
             {
-                ParsedStringToInt(ref isParsed);
+                Console.Write("Please enter number: ");
+                userInput = Console.ReadLine();
+
+                if (int.TryParse(userInput, out parsedNumber))
+                {
+                    isParsed = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid value entered");
+                }
             }
-        }
 
-        static void ParsedStringToInt(ref bool isParsed)
-        {
-            string userInput;
-            int parsedNumber;
-
-            Console.Write("Please enter number: ");
-            userInput = Console.ReadLine();
-
-            if (int.TryParse(userInput, out parsedNumber))
-            {
-                isParsed = true;
-
-                Console.WriteLine(parsedNumber);
-            }
-            else
-            {
-                Console.WriteLine("Invalid value entered");
-            }
+            return parsedNumber;
         }
     }
 }
