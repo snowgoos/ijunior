@@ -20,7 +20,7 @@ namespace ijunior.Block4
 
         static void DrawBar(int valueInPercentage, int maxValue, int positionX = 0, int positionY = 0)
         {
-            int currentValue = getWholePercentage(maxValue, valueInPercentage);
+            int currentValue = GetWholePercentage(maxValue, valueInPercentage);
 
             Console.SetCursorPosition(positionY, positionX);
             Console.Write("[");
