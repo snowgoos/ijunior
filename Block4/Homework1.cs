@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ijunior.Block4
+﻿namespace ijunior.Block4
 {
     internal class Homework1
     {
@@ -108,7 +102,6 @@ namespace ijunior.Block4
             byte indexStep = 1;
             int tempArrayLength = array.Length - indexStep;
             string[] tempArray;
-            int tempIncrement = 0;
 
             if (tempArrayLength <= 0)
             {
@@ -117,15 +110,14 @@ namespace ijunior.Block4
 
             tempArray = new string[tempArrayLength];
 
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < index; i++)
             {
-                if (i == index)
-                {
-                    tempIncrement = 1;
-                    continue;
-                }
+                tempArray[i] = array[i];
+            }
 
-                tempArray[i - tempIncrement] = array[i];
+            for (int i = index; i < tempArray.Length; i++)
+            {
+                tempArray[i] = array[i + indexStep];
             }
 
             return tempArray;
