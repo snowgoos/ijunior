@@ -1,42 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ijunior.Block4
+﻿namespace ijunior.Block4
 {
     internal class Homework3
     {
         static void Main(string[] args)
         {
-            int parsedNumber = ParsedStringToInt();
+            int parsedNumber = GetNumber();
 
             Console.WriteLine(parsedNumber);
         }
 
-        static int ParsedStringToInt()
+        static int GetNumber()
         {
-            string userInput;
-            int parsedNumber = 0;
-            bool isParsed = false;
+            string userInput = "";
+            int number = 0;
 
-            while (isParsed == false)
+            while (int.TryParse(userInput, out number) == false)
             {
                 Console.Write("Please enter number: ");
                 userInput = Console.ReadLine();
-
-                if (int.TryParse(userInput, out parsedNumber))
-                {
-                    isParsed = true;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid value entered");
-                }
             }
 
-            return parsedNumber;
+            return number;
         }
     }
 }
