@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ijunior.Block4
+﻿namespace ijunior.Block4
 {
     internal class Homework5
     {
@@ -12,25 +6,25 @@ namespace ijunior.Block4
         {
             int[] numbers = new int[10];
 
-            RandomlyFillArray(numbers);
-            OutputArray(numbers);
+            FillArray(numbers);
+            ShowArray(numbers);
             ArrayShuffle(numbers);
-            OutputArray(numbers);
+            ShowArray(numbers);
         }
 
-        static void RandomlyFillArray(int[] numbers)
+        static void FillArray(int[] numbers)
         {
             Random random = new Random();
-            int minRange = 1;
-            int maxRange = 10;
+            int minRandomNumber = 1;
+            int maxRabdomNumber = 10;
 
             for (int i = 0; i < numbers.Length; i++)
             {
-                numbers[i] = random.Next(minRange, maxRange);
+                numbers[i] = random.Next(minRandomNumber, maxRabdomNumber);
             }
         }
 
-        static void OutputArray(int[] numbers)
+        static void ShowArray(int[] numbers)
         {
             for (int i = 0; i < numbers.Length; i++)
             {
@@ -44,17 +38,20 @@ namespace ijunior.Block4
         {
             int tempNumber;
             Random random = new Random();
-            int currentIndex = numbers.Length;
-            int randomIndex;
+            int numbersLength = numbers.Length - 1;
+            int maxRandomNumber = 2;
 
-            while (currentIndex != 0)
+            for (int i = 0; i < numbersLength; i++)
             {
-                randomIndex = random.Next(currentIndex);
-                currentIndex--;
-
-                tempNumber = numbers[randomIndex];
-                numbers[randomIndex] = numbers[currentIndex];
-                numbers[currentIndex] = tempNumber;
+                for (int k = 0; k < numbersLength - i; k++)
+                {
+                    if (random.Next(maxRandomNumber) == 0)
+                    {
+                        tempNumber = numbers[k];
+                        numbers[k] = numbers[k + 1];
+                        numbers[k + 1] = tempNumber;
+                    }
+                }
             }
         }
     }
