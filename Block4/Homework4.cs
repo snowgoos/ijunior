@@ -10,7 +10,8 @@ namespace ijunior.Block4
     {
         static void Main(string[] args)
         {
-            Random random = new Random();
+            Console.CursorVisible = false;
+
             char mapWall = '#';
             char playerIcon = '$';
             char mapEmpty = ' ';
@@ -18,7 +19,7 @@ namespace ijunior.Block4
                 {mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall},
                 {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
                 {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
-                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
+                {mapWall, playerIcon, mapEmpty, mapEmpty, mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
                 {mapWall, mapEmpty, mapEmpty, mapEmpty, mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
                 {mapWall, mapEmpty, mapEmpty, mapEmpty, mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
                 {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
@@ -26,77 +27,92 @@ namespace ijunior.Block4
                 {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
                 {mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall}
             };
-            int minRange = 1;
-            int maxRange = 9;
-            int playerX = random.Next(minRange, maxRange);
-            int playerY = random.Next(minRange, maxRange);
+            int playerX = 0;
+            int playerY = 0;
+            int playerDX = 0;
+            int playerDY = 0;
             int playerStep = 1;
-            int playerMovingSpeed = 150;
             bool isGameGoing = true;
 
-            SetPlayerToMap(ref map, playerX, playerY, mapWall, playerIcon);
-            DrawMap(map);
+            DrawMap(map, ref playerX, ref playerY, playerIcon);
 
             while (isGameGoing == true)
             {
-                Console.SetCursorPosition(playerX, playerY);
-
                 if (Console.KeyAvailable)
                 {
-                    ConsoleKeyInfo key = Console.ReadKey();
+                    ConsoleKeyInfo key = Console.ReadKey(true);
 
-                    switch (key.Key)
+                    PlayerActions(ref playerDX, ref playerDY, ref isGameGoing, key, playerStep);
+
+                    if (map[playerY + playerDY, playerX + playerDX] != mapWall)
                     {
-                        case ConsoleKey.W:
-
-                            break;
-
-                        case ConsoleKey.S:
-
-                            break;
-
-                        case ConsoleKey.D:
-
-                            break;
-
-                        case ConsoleKey.A:
-
-                            break;
-
-                        default:
-                            isGameGoing = false;
-                            break;
+                        PlayerMove(ref playerX, ref playerY, playerDX, playerDY, mapEmpty, playerIcon);
                     }
                 }
-
-                System.Threading.Thread.Sleep(playerMovingSpeed);
             }
+
+            Console.SetCursorPosition(0, map.GetLength(0));
         }
 
-        static void DrawMap(char[,] map)
+        static void DrawMap(char[,] map, ref int playerX, ref int playerY, char playerIcon)
         {
             for (int i = 0; i < map.GetLength(0); i++)
             {
                 for (int k = 0; k < map.GetLength(1); k++)
                 {
                     Console.Write(map[i, k]);
+
+                    if (map[i, k] == playerIcon)
+                    {
+                        playerX = k;
+                        playerY = i;
+                    }
                 }
 
                 Console.WriteLine();
             }
         }
 
-        static void SetPlayerToMap(ref char[,] map, int playerX, int playerY, char mapWall, char playerIcon = '@')
+        static void PlayerActions(ref int playerDX, ref int playerDY, ref bool isGameGoing, ConsoleKeyInfo key, int playerStep)
         {
-            if (map[playerX, playerY] != mapWall)
+            switch (key.Key)
             {
-                map[playerX, playerY] = playerIcon;
+                case ConsoleKey.W:
+                    playerDY = -playerStep;
+                    playerDX = 0;
+                    break;
+
+                case ConsoleKey.S:
+                    playerDY = playerStep;
+                    playerDX = 0;
+                    break;
+
+                case ConsoleKey.D:
+                    playerDX = playerStep;
+                    playerDY = 0;
+                    break;
+
+                case ConsoleKey.A:
+                    playerDX = -playerStep;
+                    playerDY = 0;
+                    break;
+
+                default:
+                    isGameGoing = false;
+                    break;
             }
         }
 
-        static void PlayerMove()
+        static void PlayerMove(ref int x, ref int y, int dX, int dY, char mapEmpty = ' ', char playerIcon = '@')
         {
-            
+            Console.SetCursorPosition(x, y);
+            Console.Write(mapEmpty);
+
+            x += dX;
+            y += dY;
+
+            Console.SetCursorPosition(x, y);
+            Console.Write(playerIcon);
         }
     }
 }
