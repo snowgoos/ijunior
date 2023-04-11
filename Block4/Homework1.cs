@@ -51,7 +51,7 @@ namespace ijunior.Block4
                         break;
 
                     case ExitCommand:
-                        isExit = Exit();
+                        isExit = true;
                         break;
                 }
             }
@@ -94,15 +94,21 @@ namespace ijunior.Block4
 
         static void RemoveCustomer(ref string[] customers, ref string[] customerTitles)
         {
-            customers = DecreaseStringArray(customers);
-            customerTitles = DecreaseStringArray(customerTitles);
+            int userInput;
+
+            Console.Write("Please enter customer number: ");
+            userInput = Convert.ToInt32(Console.ReadLine());
+
+            customers = DecreaseStringArray(customers, userInput);
+            customerTitles = DecreaseStringArray(customerTitles, userInput);
         }
 
-        static string[] DecreaseStringArray(string[] array)
+        static string[] DecreaseStringArray(string[] array, int index)
         {
             byte indexStep = 1;
             int tempArrayLength = array.Length - indexStep;
             string[] tempArray;
+            int tempIncrement = 0;
 
             if (tempArrayLength <= 0)
             {
@@ -111,9 +117,15 @@ namespace ijunior.Block4
 
             tempArray = new string[tempArrayLength];
 
-            for (int i = 0; i < tempArray.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
-                tempArray[i] = array[i];
+                if (i == index)
+                {
+                    tempIncrement = 1;
+                    continue;
+                }
+
+                tempArray[i - tempIncrement] = array[i];
             }
 
             return tempArray;
@@ -152,11 +164,6 @@ namespace ijunior.Block4
             }
 
             Console.WriteLine();
-        }
-
-        static bool Exit()
-        {
-            return true;
         }
     }
 }

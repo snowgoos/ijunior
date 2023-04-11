@@ -13,6 +13,7 @@ namespace ijunior.Block4
             Random random = new Random();
             char mapWall = '#';
             char playerIcon = '$';
+            char mapEmpty = ' ';
             char[,] map = {
                 {mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall},
                 {mapWall, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', mapWall},
@@ -33,8 +34,8 @@ namespace ijunior.Block4
             int playerMovingSpeed = 150;
             bool isGameGoing = true;
 
-            setPlayerToMap(ref map, playerX, playerY, mapWall, playerIcon);
-            drawMap(map);
+            SetPlayerToMap(ref map, playerX, playerY, mapWall, playerIcon);
+            DrawMap(map);
 
             while (isGameGoing == true)
             {
@@ -93,6 +94,9 @@ namespace ijunior.Block4
             }
         }
 
-        static void 
+        static void PlayerMove()
+        {
+            
+        }
     }
 }
