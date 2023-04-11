@@ -12,5 +12,10 @@ namespace ijunior.Block4
         {
             
         }
+
+        static void ArrayShufle()
+        {
+            
+        }
     }
 }

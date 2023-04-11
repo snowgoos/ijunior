@@ -16,14 +16,14 @@ namespace ijunior.Block4
             char mapEmpty = ' ';
             char[,] map = {
                 {mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall},
-                {mapWall, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', mapWall},
-                {mapWall, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', mapWall},
-                {mapWall, ' ', ' ', ' ', mapWall, ' ', ' ', ' ', ' ', mapWall},
-                {mapWall, ' ', ' ', ' ', mapWall, ' ', ' ', ' ', ' ', mapWall},
-                {mapWall, ' ', ' ', ' ', mapWall, ' ', ' ', ' ', ' ', mapWall},
-                {mapWall, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', mapWall},
-                {mapWall, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', mapWall},
-                {mapWall, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', mapWall},
+                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
+                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
+                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
+                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
+                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
+                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
+                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
+                {mapWall, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapEmpty, mapWall},
                 {mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall, mapWall}
             };
             int minRange = 1;

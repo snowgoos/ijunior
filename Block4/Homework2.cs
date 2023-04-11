@@ -39,7 +39,7 @@ namespace ijunior.Block4
             }
         }
 
-        static int getWholePercentage(int value, int percentage)
+        static int GetWholePercentage(int value, int percentage)
         {
             float percentageValue = Convert.ToSingle(percentage) / 100 * value;
 
