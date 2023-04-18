@@ -1,25 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ijunior.Block5
+﻿namespace ijunior.Block5
 {
     internal class Homework2
     {
         static void Main(string[] args)
         {
-            int shopAccount = 0;
+            Queue<int> purchaseAmounts;
+
+            purchaseAmounts = FillQueue();
+
+            QueueHandler(purchaseAmounts);
+        }
+
+        static Queue<int> FillQueue()
+        {
             Queue<int> purchaseAmounts = new Queue<int>();
+            purchaseAmounts.Enqueue(10);
+            purchaseAmounts.Enqueue(20);
+            purchaseAmounts.Enqueue(30);
+            purchaseAmounts.Enqueue(40);
+            purchaseAmounts.Enqueue(50);
 
-            foreach (int amount in purchaseAmounts)
+            return purchaseAmounts;
+        }
+
+        static void QueueHandler(Queue<int> purchaseAmounts)
+        {
+            int shopAccount = 0;
+
+            while (purchaseAmounts.Count > 0)
             {
-                shopAccount += 1;
+                int amount = purchaseAmounts.Dequeue();
+                shopAccount += amount;
 
+                Console.WriteLine($"Order amount: {amount}");
                 Console.WriteLine($"Shop account: {shopAccount}");
                 Console.ReadKey();
-
+                Console.Clear();
             }
         }
     }
