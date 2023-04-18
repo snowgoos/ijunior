@@ -11,13 +11,13 @@
             Console.WriteLine("Please enter currency code: ");
             userInput = Console.ReadLine();
 
-            currencies = fillCurrencies();
-            currency = getCurrencyByIsoCode(currencies, userInput);
+            currencies = FillCurrencies();
+            currency = GetCurrencyByIsoCode(currencies, userInput);
 
             Console.WriteLine(currency);
         }
 
-        static Dictionary<string, string> fillCurrencies()
+        static Dictionary<string, string> FillCurrencies()
         {
             Dictionary<string, string> currencies = new Dictionary<string, string>();
             currencies.Add("EUR", "Euro");
@@ -28,7 +28,7 @@
             return currencies;
         }
 
-        static string getCurrencyByIsoCode(Dictionary<string, string> currencies, string value)
+        static string GetCurrencyByIsoCode(Dictionary<string, string> currencies, string value)
         {
             string errorMessage = "Incorrect value, result not found.";
 
