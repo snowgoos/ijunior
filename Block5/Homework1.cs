@@ -32,12 +32,9 @@
         {
             string errorMessage = "Incorrect value, result not found.";
 
-            foreach (var currency in currencies)
+            if (currencies.ContainsKey(value))
             {
-                if (currency.Value.ToLower() == value.ToLower())
-                {
-                    return currency.Key;
-                }
+                return currencies[value];
             }
 
             return errorMessage;

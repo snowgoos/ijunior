@@ -11,7 +11,7 @@ namespace ijunior.Block5
         static void Main(string[] args)
         {
             int shopAccount = 0;
-            List<int> purchaseAmounts = new List<int>();
+            Queue<int> purchaseAmounts = new Queue<int>();
 
             foreach (int amount in purchaseAmounts)
             {
