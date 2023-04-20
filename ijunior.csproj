@@ -5,7 +5,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>ijunior.Block5.Homework4</StartupObject>
+    <StartupObject>ijunior.Block5.Homework5</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="OOP\" />
+  </ItemGroup>
 
 </Project>
