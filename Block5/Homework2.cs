@@ -8,7 +8,7 @@
 
             purchaseAmounts = FillQueue();
 
-            QueueHandler(purchaseAmounts);
+            ServiceShop(purchaseAmounts);
         }
 
         static Queue<int> FillQueue()
@@ -23,16 +23,14 @@
             return purchaseAmounts;
         }
 
-        static void QueueHandler(Queue<int> purchaseAmounts)
+        static void ServiceShop(Queue<int> purchaseAmounts)
         {
             int shopAccount = 0;
 
             while (purchaseAmounts.Count > 0)
             {
-                int amount = purchaseAmounts.Dequeue();
-                shopAccount += amount;
+                shopAccount += purchaseAmounts.Dequeue();
 
-                Console.WriteLine($"Order amount: {amount}");
                 Console.WriteLine($"Shop account: {shopAccount}");
                 Console.ReadKey();
                 Console.Clear();
