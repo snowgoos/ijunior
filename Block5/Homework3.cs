@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ijunior.Block5
+﻿namespace ijunior.Block5
 {
     internal class Homework3
     {
@@ -15,7 +9,6 @@ namespace ijunior.Block5
 
             List<int> numbers = new List<int>();
             string userInput;
-            int userInputNumber;
             bool isExitInput = false;
 
             while (isExitInput == false)
@@ -28,14 +21,7 @@ namespace ijunior.Block5
                 switch (userInput)
                 {
                     case CommandSum:
-                        int numbersSum = 0;
-
-                        for (int i = 0; i < numbers.Count; i++)
-                        {
-                            numbersSum += numbers[i];
-                        }
-
-                        Console.WriteLine($"All number sum in array: {numbersSum}");
+                        SumNumbers(numbers);
                         break;
 
                     case CommandExit:
@@ -43,15 +29,32 @@ namespace ijunior.Block5
                         break;
 
                     default:
-                        if (int.TryParse(userInput, out userInputNumber) == false)
-                        {
-                            Console.Write("Please enter number: ");
-                            userInput = Console.ReadLine();
-                        }
-
+                        CollectNumber(userInput, numbers);
                         break;
                 }
             }
+        }
+
+        static void CollectNumber(string value, List<int> numbers)
+        {
+            int userInputNumber;
+
+            if (int.TryParse(value, out userInputNumber))
+            {
+                numbers.Add(userInputNumber);
+            }
+        }
+
+        static void SumNumbers(List<int> numbers)
+        {
+            int numbersSum = 0;
+
+            foreach (var number in numbers)
+            {
+                numbersSum += number;
+            }
+
+            Console.WriteLine($"All number sum in list: {numbersSum}");
         }
     }
 }
