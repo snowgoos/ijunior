@@ -55,7 +55,10 @@
             Console.WriteLine("Please enter customer title: ");
             customerTitle = Console.ReadLine();
 
-            customers.Add(customerFullname, customerTitle);
+            if (customers.ContainsKey(customerFullname) == false)
+            {
+                customers.Add(customerFullname, customerTitle);
+            }
         }
 
         static void ShowCustomers(Dictionary<string, string> customers)
