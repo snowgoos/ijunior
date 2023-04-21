@@ -59,6 +59,10 @@
             {
                 customers.Add(customerFullname, customerTitle);
             }
+            else
+            {
+                Console.WriteLine("Customer already added");
+            }
         }
 
         static void ShowCustomers(Dictionary<string, string> customers)
