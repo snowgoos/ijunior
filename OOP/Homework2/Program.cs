@@ -7,29 +7,29 @@
             Renderer renderer = new Renderer();
             Player player = new Player(10, 5, "player");
 
-            renderer.Draw(player.X, player.Y, player.Name);
+            renderer.Draw(player.PositionX, player.PositionY, player.Name);
         }
     }
 
     class Player
     {
-        public Player(int x, int y, string name)
+        public Player(int positionX, int positionY, string name)
         {
-            X = x;
-            Y = y;
+            PositionX = positionX;
+            PositionY = positionY;
             Name = name;
         }
 
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public int PositionX { get; private set; }
+        public int PositionY { get; private set; }
         public string Name { get; private set; }
     }
 
     class Renderer
     {
-        public void Draw(int x, int y, string name)
+        public void Draw(int positionX, int positionY, string name)
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(positionX, positionY);
             Console.Write(name);
         }
     }
