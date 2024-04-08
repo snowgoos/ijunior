@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ijunior.OOP.Homework3
+﻿namespace ijunior.OOP.Homework3
 {
     class Program
     {
@@ -32,15 +30,7 @@ namespace ijunior.OOP.Homework3
                 switch (userInput)
                 {
                     case AddPlayerCommand:
-                        Console.WriteLine("Please enter player ID:");
-                        int playerId = Convert.ToInt32(Console.ReadLine());
-
-                        Console.WriteLine("Please enter player username:");
-                        string playerUsername = Console.ReadLine();
-
-                        Player player = new Player(Convert.ToInt32(playerId), playerUsername, 1);
-
-                        database.AddPlayer(player);
+                        AddPlayer(database);
                         break;
 
                     case ShowPlayersCommand:
@@ -48,21 +38,15 @@ namespace ijunior.OOP.Homework3
                         break;
 
                     case RemovePlayerCommand:
-                        Console.WriteLine("Please enter the player ID which you want to remove:");
-
-                        database.RemovePlayerById(Convert.ToInt32(Console.ReadLine()));
+                        RemovePlayer(database);
                         break;
 
                     case BanPlayerCommand:
-                        Console.WriteLine("Please enter the player ID which you want to ban:");
-
-                        database.SetBanPlayerById(Convert.ToInt32(Console.ReadLine()));
+                        BanPlayer(database);
                         break;
 
                     case UnbanPlayerCommand:
-                        Console.WriteLine("Please enter the player ID which you want to unban:");
-
-                        database.SetUnbanPlayerById(Convert.ToInt32(Console.ReadLine()));
+                        UnbanPlayer(database);
                         break;
 
                     case ExitCommand:
@@ -71,27 +55,60 @@ namespace ijunior.OOP.Homework3
                 }
             }
         }
+
+        static void AddPlayer(Database database)
+        {
+            Console.WriteLine("Please enter player ID:");
+            int playerId;
+
+            if (int.TryParse(Console.ReadLine(), out playerId))
+            {
+                Console.WriteLine("Please enter player username:");
+
+                Player player = new Player(playerId, Console.ReadLine(), 1);
+
+                database.AddPlayer(player);
+            }
+
+            Console.WriteLine("Incorrect player ID, please enter a number");
+        }
+
+        static void RemovePlayer(Database database)
+        {
+            Console.WriteLine("Please enter the player ID which you want to remove:");
+
+            database.RemovePlayerById(Console.ReadLine());
+        }
+
+        static void BanPlayer(Database database)
+        {
+            Console.WriteLine("Please enter the player ID which you want to ban:");
+
+            database.SetBanPlayerById(Console.ReadLine());
+        }
+
+        static void UnbanPlayer(Database database)
+        {
+            Console.WriteLine("Please enter the player ID which you want to unban:");
+
+            database.SetUnbanPlayerById(Console.ReadLine());
+        }
     }
 
     class Player
     {
+        public int Id { get ; private set; }
+        public string Username { get; private set; }
+        public int Level { get; private set; }
+        public bool IsBanned { get; private set; }
+
         public Player(int id, string username, int level, bool isBanned = false)
         {
-            _id = id;
-            _username = username;
-            _level = level;
-            _isBanned = isBanned;
+            Id = id;
+            Username = username;
+            Level = level;
+            IsBanned = isBanned;
         }
-
-        private int _id;
-        private string _username;
-        private int _level;
-        private bool _isBanned;
-
-        public int Id { get => _id; set => _id = value; }
-        public string Username { get => _username; set => _username = value; }
-        public int Level { get => _level; set => _level = value; }
-        public bool IsBanned { get => _isBanned; set => _isBanned = value; }
 
         public void SetBan()
         {
@@ -128,21 +145,48 @@ namespace ijunior.OOP.Homework3
             }
         }
 
-        public void RemovePlayerById(int playerId)
+        public void RemovePlayerById(string input)
         {
-            players.Remove(playerId);
+            int playerId;
+
+            if (int.TryParse(input, out playerId))
+            {
+                players.Remove(playerId);
+            }
+            else
+            {
+                Console.WriteLine("Incorrect player ID, please enter a number");
+            }
         }
 
-        public void SetBanPlayerById(int id)
+        public void SetBanPlayerById(string input)
         {
-            players.TryGetValue(id, out Player player);
-            player.SetBan();
+            int playerId;
+
+            if (int.TryParse(input, out playerId))
+            {
+                players.TryGetValue(playerId, out Player player);
+                player.SetBan();
+            }
+            else
+            {
+                Console.WriteLine("Incorrect player ID, please enter a number");
+            }
         }
 
-        public void SetUnbanPlayerById(int id)
+        public void SetUnbanPlayerById(string input)
         {
-            players.TryGetValue(id, out Player player);
-            player.SetUnban();
+            int playerId;
+
+            if (int.TryParse(input, out playerId))
+            {
+                players.TryGetValue(playerId, out Player player);
+                player.SetUnban();
+            }
+            else
+            {
+                Console.WriteLine("Incorrect player ID, please enter a number");
+            }
         }
     }
 }
