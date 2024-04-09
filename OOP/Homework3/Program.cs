@@ -13,7 +13,7 @@
 
             string userInput;
             bool isExit = false;
-            Database database = new Database();
+            Contorller controller = new Contorller(new Database());
 
             while (isExit == false)
             {
@@ -30,23 +30,23 @@
                 switch (userInput)
                 {
                     case AddPlayerCommand:
-                        AddPlayer(database);
+                        controller.AddPlayer();
                         break;
 
                     case ShowPlayersCommand:
-                        database.ShowPlayers();
+                        controller.ShowPlayers();
                         break;
 
                     case RemovePlayerCommand:
-                        RemovePlayer(database);
+                        controller.RemovePlayer();
                         break;
 
                     case BanPlayerCommand:
-                        BanPlayer(database);
+                        controller.BanPlayer();
                         break;
 
                     case UnbanPlayerCommand:
-                        UnbanPlayer(database);
+                        controller.UnbanPlayer();
                         break;
 
                     case ExitCommand:
@@ -55,8 +55,18 @@
                 }
             }
         }
+    }
 
-        static void AddPlayer(Database database)
+    class Contorller
+    {
+        private Database _database;
+
+        public Contorller(Database database)
+        {
+            _database = database;
+        }
+
+        public void AddPlayer()
         {
             Console.WriteLine("Please enter player ID:");
             int playerId;
@@ -67,41 +77,41 @@
 
                 Player player = new Player(playerId, Console.ReadLine(), 1);
 
-                database.AddPlayer(player);
+                _database.AddPlayer(player);
             }
 
             Console.WriteLine("Incorrect player ID, please enter a number");
         }
 
-        static void RemovePlayer(Database database)
+        public void ShowPlayers()
+        {
+            _database.ShowPlayers();
+        }
+
+        public void RemovePlayer()
         {
             Console.WriteLine("Please enter the player ID which you want to remove:");
 
-            database.RemovePlayerById(Console.ReadLine());
+            _database.RemovePlayerById(Console.ReadLine());
         }
 
-        static void BanPlayer(Database database)
+        public void BanPlayer()
         {
             Console.WriteLine("Please enter the player ID which you want to ban:");
 
-            database.SetBanPlayerById(Console.ReadLine());
+            _database.SetBanPlayerById(Console.ReadLine());
         }
 
-        static void UnbanPlayer(Database database)
+        public void UnbanPlayer()
         {
             Console.WriteLine("Please enter the player ID which you want to unban:");
 
-            database.SetUnbanPlayerById(Console.ReadLine());
+            _database.SetUnbanPlayerById(Console.ReadLine());
         }
     }
 
     class Player
     {
-        public int Id { get ; private set; }
-        public string Username { get; private set; }
-        public int Level { get; private set; }
-        public bool IsBanned { get; private set; }
-
         public Player(int id, string username, int level, bool isBanned = false)
         {
             Id = id;
@@ -109,6 +119,11 @@
             Level = level;
             IsBanned = isBanned;
         }
+
+        public int Id { get; private set; }
+        public string Username { get; private set; }
+        public int Level { get; private set; }
+        public bool IsBanned { get; private set; }
 
         public void SetBan()
         {
@@ -123,11 +138,11 @@
 
     class Database
     {
-        Dictionary<int, Player> players = new Dictionary<int, Player>();
+        private Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
         public void ShowPlayers()
         {
-            foreach (var player in players.Values)
+            foreach (var player in _players.Values)
             {
                 Console.WriteLine($"Player ID: {player.Id} | UserName: {player.Username} | Level: {player.Level} | Banned: {player.IsBanned}");
             }
@@ -135,13 +150,13 @@
 
         public void AddPlayer(Player player)
         {
-            if (players.ContainsKey(player.Id))
+            if (_players.ContainsKey(player.Id))
             {
                 Console.WriteLine("Duplicated player id");
             }
             else
             {
-                players.Add(player.Id, player);
+                _players.Add(player.Id, player);
             }
         }
 
@@ -151,7 +166,7 @@
 
             if (int.TryParse(input, out playerId))
             {
-                players.Remove(playerId);
+                _players.Remove(playerId);
             }
             else
             {
@@ -165,7 +180,7 @@
 
             if (int.TryParse(input, out playerId))
             {
-                players.TryGetValue(playerId, out Player player);
+                _players.TryGetValue(playerId, out Player player);
                 player.SetBan();
             }
             else
@@ -180,7 +195,7 @@
 
             if (int.TryParse(input, out playerId))
             {
-                players.TryGetValue(playerId, out Player player);
+                _players.TryGetValue(playerId, out Player player);
                 player.SetUnban();
             }
             else
