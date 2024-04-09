@@ -24,12 +24,22 @@
 
                 if (userInput == TakeCardCommand)
                 {
-                    Card card = cardDeck.GetCard();
+                    if (cardDeck.CardCount > 0)
+                    {
+                        Card card = cardDeck.GetCard();
 
-                    player.TakeCard(card);
+                        player.TakeCard(card);
+                    }
+                    else
+                    {
+                        Console.Write("Card deck is empty. Please press enter for reshuffle.");
+                        Console.ReadKey();
+
+                        cardDeck.Shuffle();
+                    }
                 }
 
-                if (userInput == StopPlayCommand || player.GetCardCount() >= maxPlayerCard)
+                if (userInput == StopPlayCommand || player.CardCount >= maxPlayerCard)
                 {
                     player.ShowCards();
                     isFinish = true;
@@ -42,9 +52,12 @@
     {
         private List<Card> _cards = new List<Card>();
 
+        public int CardCount { get; private set; }
+
         public void TakeCard(Card card)
         {
             _cards.Add(card);
+            CardCount = _cards.Count;
         }
 
         public void ShowCards()
@@ -54,23 +67,17 @@
                 Console.WriteLine($"Card name: {card.Type}, Card power: {card.Power}");
             }
         }
-
-        public int GetCardCount()
-        {
-            return _cards.Count;
-        }
     }
 
     class Card
     {
-        private string[] _type = { "Fire", "Water", "Wind", "Earth" };
         private int _minPower = 1;
         private int _maxPower = 30;
         private Random _random = new Random();
 
-        public Card()
+        public Card(string type)
         {
-            Type = _type[_random.Next(0, _type.Length)];
+            Type = type;
             Power = _random.Next(_minPower, _maxPower + 1);
         }
 
@@ -80,24 +87,42 @@
 
     class CardDeck
     {
-        private int _deckSize = 20;
+        private int _deckSize = 10;
         private Stack<Card> _cards = new Stack<Card>();
+        private Random _random = new Random();
 
         public CardDeck()
         {
             CallectCards();
+            CardCount = _cards.Count;
         }
+
+        public int CardCount { get; private set; }
 
         public Card GetCard()
         {
-            return _cards.Pop();
+            Card card = _cards.Pop();
+            CardCount = _cards.Count;
+
+            return card;
+        }
+
+        public void Shuffle()
+        {
+            _cards.Clear();
+            CallectCards();
+            CardCount = _cards.Count;
         }
 
         private void CallectCards()
         {
+            string[] type = { "Fire", "Water", "Wind", "Earth" };
+
             for (int i = 0; i < _deckSize; i++)
             {
-                _cards.Push(new Card());
+                string cardType = type[_random.Next(0, type.Length)];
+
+                _cards.Push(new Card(cardType));
             }
         }
     }
