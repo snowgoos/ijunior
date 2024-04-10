@@ -83,16 +83,17 @@
 
     class Deck
     {
-        public int CardCount => _cards.Count;
-        private int _deckSize = 10;
-        private Stack<Card> _cards = new Stack<Card>();
+        private static Random s_random = new Random();
 
-        private static Random _random = new Random();
+        private int _size = 10;
+        private Stack<Card> _cards = new Stack<Card>();
 
         public Deck()
         {
-            Fill();
+            Shuffle();
         }
+
+        public int CardCount => _cards.Count;
 
         public Card RemoveCard()
         {
@@ -104,22 +105,23 @@
         public void Shuffle()
         {
             _cards.Clear();
-            Fill();
+
+            for (int i = 0; i < _size; i++)
+            {
+                _cards.Push(CardCreation());
+            }
         }
 
-        private void Fill()
+        private Card CardCreation()
         {
             string[] type = { "Fire", "Water", "Wind", "Earth" };
             int _minPower = 1;
             int _maxPower = 30;
 
-            for (int i = 0; i < _deckSize; i++)
-            {
-                string cardType = type[_random.Next(0, type.Length)];
-                int power = _random.Next(_minPower, _maxPower + 1);
+            string cardType = type[s_random.Next(0, type.Length)];
+            int power = s_random.Next(_minPower, _maxPower + 1);
 
-                _cards.Push(new Card(cardType, power));
-            }
+            return new Card(cardType, power);
         }
     }
 }
