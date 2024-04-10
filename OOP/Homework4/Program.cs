@@ -9,12 +9,12 @@
 
             int maxPlayerCard = 5;
             string userInput;
-            bool isFinish = false;
+            bool isRunning = false;
 
             Deck deck = new Deck();
             Player player = new Player();
 
-            while (isFinish == false)
+            while (isRunning == false)
             {
                 Console.WriteLine("Please select action:");
                 Console.WriteLine($"{TakeCardCommand}. Take a card");
@@ -26,7 +26,7 @@
                 {
                     if (deck.CardCount > 0)
                     {
-                        Card card = deck.RemoveCard();
+                        Card card = deck.GiveCard();
 
                         player.TakeCard(card);
                     }
@@ -42,7 +42,7 @@
                 if (userInput == StopPlayCommand || player.CardCount >= maxPlayerCard)
                 {
                     player.ShowCards();
-                    isFinish = true;
+                    isRunning = true;
                 }
             }
         }
@@ -52,12 +52,11 @@
     {
         private List<Card> _cards = new List<Card>();
 
-        public int CardCount { get; private set; }
+        public int CardCount => _cards.Count;
 
         public void TakeCard(Card card)
         {
             _cards.Add(card);
-            CardCount = _cards.Count;
         }
 
         public void ShowCards()
@@ -85,7 +84,6 @@
     {
         private static Random s_random = new Random();
 
-        private int _size = 10;
         private Stack<Card> _cards = new Stack<Card>();
 
         public Deck()
@@ -95,7 +93,7 @@
 
         public int CardCount => _cards.Count;
 
-        public Card RemoveCard()
+        public Card GiveCard()
         {
             Card card = _cards.Pop();
 
@@ -104,22 +102,24 @@
 
         public void Shuffle()
         {
+            int size = 10;
+
             _cards.Clear();
 
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < size; i++)
             {
-                _cards.Push(CardCreation());
+                _cards.Push(CreateCard());
             }
         }
 
-        private Card CardCreation()
+        private Card CreateCard()
         {
             string[] type = { "Fire", "Water", "Wind", "Earth" };
-            int _minPower = 1;
-            int _maxPower = 30;
+            int minPower = 1;
+            int maxPower = 30;
 
             string cardType = type[s_random.Next(0, type.Length)];
-            int power = s_random.Next(_minPower, _maxPower + 1);
+            int power = s_random.Next(minPower, maxPower + 1);
 
             return new Card(cardType, power);
         }
