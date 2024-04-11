@@ -1,4 +1,7 @@
-﻿namespace ijunior.OOP.Homework4
+﻿using System;
+using System.Drawing;
+
+namespace ijunior.OOP.Homework4
 {
     class Program
     {
@@ -32,10 +35,10 @@
                     }
                     else
                     {
-                        Console.Write("Card deck is empty. Please press enter for reshuffle.");
-                        Console.ReadKey();
+                        Console.WriteLine("Card deck is empty.");
 
-                        deck.Shuffle();
+                        player.ShowCards();
+                        isRunning = true;
                     }
                 }
 
@@ -88,6 +91,7 @@
 
         public Deck()
         {
+            CreateCards();
             Shuffle();
         }
 
@@ -102,26 +106,40 @@
 
         public void Shuffle()
         {
-            int size = 10;
+            Card[] cards = _cards.ToArray();
+            int cardsCount = cards.Length;
+
+            while (cardsCount > 1)
+            {
+                int randomIndex = s_random.Next(cardsCount);
+                Card card = cards[randomIndex];
+                cards[randomIndex] = cards[cardsCount - 1];
+                cards[cardsCount - 1] = card;
+                cardsCount--;
+            }
 
             _cards.Clear();
 
-            for (int i = 0; i < size; i++)
+            foreach (var card in cards)
             {
-                _cards.Push(CreateCard());
+                _cards.Push(card);
             }
         }
 
-        private Card CreateCard()
+        private void CreateCards()
         {
+            int size = 10;
             string[] type = { "Fire", "Water", "Wind", "Earth" };
             int minPower = 1;
             int maxPower = 30;
 
-            string cardType = type[s_random.Next(0, type.Length)];
-            int power = s_random.Next(minPower, maxPower + 1);
+            for (int i = 0; i < size; i++)
+            {
+                string cardType = type[s_random.Next(0, type.Length)];
+                int power = s_random.Next(minPower, maxPower + 1);
 
-            return new Card(cardType, power);
+                _cards.Push(new Card(cardType, power));
+            }
         }
     }
 }
