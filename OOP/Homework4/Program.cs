@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-
-namespace ijunior.OOP.Homework4
+﻿namespace ijunior.OOP.Homework4
 {
     class Program
     {
