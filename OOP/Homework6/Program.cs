@@ -85,10 +85,9 @@
 
                 if (_player.Money >= item.Price)
                 {
-                    _trader.GiveItem(items[itemIndex - 1]);
-                    _trader.AddMoney(item.Price);
-                    _player.TakeItem(item);
                     _player.RemoveMoney(item.Price);
+                    _trader.AddMoney(item.Price);
+                    _player.TakeItem(_trader.GiveItem(items[itemIndex - 1]));
                 }
                 else
                 {
