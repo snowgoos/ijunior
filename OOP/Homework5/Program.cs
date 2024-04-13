@@ -40,7 +40,7 @@
                         break;
 
                     case ShowBookByCommand:
-                        controller.ShowBookByAction();
+                        controller.ShowBookByPropertyAction();
                         break;
 
                     case ExitCommand:
@@ -54,7 +54,9 @@
     class Controller
     {
         private Storage _storage;
-
+        private string _bookName;
+        private string _bookAuthor;
+        private int _bookYear;
 
         public Controller(Storage storage)
         {
@@ -63,26 +65,150 @@
 
         public void AddBookAction()
         {
-            
-            Console.WriteLine("Please enter book name:");
-            Console.WriteLine("Please enter book author:");
-            Console.WriteLine("Please enter book year:");
+            BookDataFill();
 
-            //Book book = new Book();
-            //_storage.AddBook(book);
+            Book book = new Book(this._bookName, this._bookAuthor, this._bookYear);
+            _storage.AddBook(book);
         }
 
         public void RemoveBookAction()
         {
+            BookDataFill();
+
+            var book = _storage.GetAllBooks()
+                .Find(item =>
+                    item.Name == this._bookName
+                    && item.Author == this._bookAuthor
+                    && item.Year == this._bookYear
+                );
+
+            if (book != null)
+            {
+                _storage.RemoveBook(book);
+            }
+            else
+            {
+                Console.WriteLine("Book not found");
+            }
         }
 
         public void ShowAllBooksAction()
         {
+            foreach (var book in _storage.GetAllBooks())
+            {
+                RenderBookInfo(book);
+            }
         }
 
-        public void ShowBookByAction()
+        public void ShowBookByPropertyAction()
         {
+            const string ShowByNameCommand = "1";
+            const string ShowByAuthorCommand = "2";
+            const string ShowByYearCommand = "3";
 
+            string userInput;
+
+            Console.WriteLine("Please select option:");
+            Console.WriteLine($"{ShowByNameCommand}.Show by name");
+            Console.WriteLine($"{ShowByAuthorCommand}.Show by author:");
+            Console.WriteLine($"{ShowByYearCommand}.Show by year:");
+
+            userInput = Console.ReadLine();
+
+            switch (userInput)
+            {
+                case ShowByNameCommand:
+                    ShowBooksByNameAction();
+                    break;
+                case ShowByAuthorCommand:
+                    ShowBooksByAuthorAction();
+                    break;
+                case ShowByYearCommand:
+                    ShowBooksByYearAction();
+                    break;
+            }
+        }
+
+        private void ShowBooksByNameAction()
+        {
+            string userInput;
+
+            Console.WriteLine("Please enter book name:");
+
+            userInput = Console.ReadLine();
+
+            foreach (var book in _storage.GetAllBooks())
+            {
+                if (book.Name == userInput)
+                {
+                    RenderBookInfo(book);
+                }
+            }
+        }
+
+        private void ShowBooksByAuthorAction()
+        {
+            string userInput;
+
+            Console.WriteLine("Please enter book author:");
+
+            userInput = Console.ReadLine();
+
+            foreach (var book in _storage.GetAllBooks())
+            {
+                if (book.Author == userInput)
+                {
+                    RenderBookInfo(book);
+                }
+            }
+        }
+
+        private void ShowBooksByYearAction()
+        {
+            string userInput;
+            int bookYear;
+
+            Console.WriteLine("Please enter book year:");
+
+            userInput = Console.ReadLine();
+
+            if (int.TryParse(userInput, out bookYear))
+            {
+                foreach (var book in _storage.GetAllBooks())
+                {
+                    if (book.Year == bookYear)
+                    {
+                        RenderBookInfo(book);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Incorrect book year. Please enter a number");
+            }
+        }
+
+        private void RenderBookInfo(Book book)
+        {
+            Console.WriteLine($"Book Name: {book.Name} | Author: {book.Author} | Year: {book.Year}");
+        }
+
+        private void BookDataFill()
+        {
+            Console.WriteLine("Please enter book name:");
+            this._bookName = Console.ReadLine();
+
+            Console.WriteLine("Please enter book author:");
+            this._bookAuthor = Console.ReadLine();
+
+            Console.WriteLine("Please enter book year:");
+
+            if (int.TryParse(Console.ReadLine(), out this._bookYear) == false)
+            {
+                Console.WriteLine("Incorrect book year. Please enter a number");
+
+                return;
+            }
         }
     }
 
@@ -109,9 +235,14 @@
             _books.Add(book);
         }
 
-        public void RevemoBook(Book book)
+        public void RemoveBook(Book book)
         {
             _books.Remove(book);
+        }
+
+        public List<Book> GetAllBooks()
+        {
+            return _books;
         }
     }
 }
