@@ -92,9 +92,9 @@
         }
     }
 
-    class Player
+    abstract class Character
     {
-        private List<Item> _items = new List<Item>();
+        protected List<Item> _items = new List<Item>();
 
         public void ShowItems()
         {
@@ -103,28 +103,21 @@
                 Console.WriteLine($"Item Name: {product.Name} | weight: {product.Weight}");
             }
         }
+    }
 
+    class Player : Character
+    {
         public void TakeItem(Item product)
         {
             _items.Add(product);
         }
     }
 
-    class Trader
+    class Trader : Character
     {
-        private List<Item> _items = new List<Item>();
-
         public Trader()
         {
             AddItems();
-        }
-
-        public void ShowItems()
-        {
-            foreach (Item product in _items)
-            {
-                Console.WriteLine($"Item Name: {product.Name} | weight: {product.Weight}");
-            }
         }
 
         public Item GiveItem(Item item)
