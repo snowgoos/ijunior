@@ -1,6 +1,4 @@
-﻿using System.Data.SqlTypes;
-
-namespace ijunior.OOP.Homework6
+﻿namespace ijunior.OOP.Homework6
 {
     class Program
     {
