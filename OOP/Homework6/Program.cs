@@ -31,7 +31,7 @@
                         break;
 
                     case BuyItemCommand:
-                        shop.BuyItem();
+                        shop.SellItem();
                         break;
 
                     case ViewOwnItems:
@@ -59,75 +59,114 @@
 
         public void ViewTraderItems()
         {
-            _trader.ShowProducts();
+            _trader.ShowItems();
         }
 
-        public void BuyItem()
+        public void SellItem()
         {
-            _trader.GiveProduct();
-            //_player.TakeProduct();
+            string userChoice;
+            var items = _trader.GetAllItems();
+            int itemIndex = 0;
+
+            Console.WriteLine("Please select item:");
+
+            foreach (var item in items)
+            {
+                Console.WriteLine($"{itemIndex + 1}. Item name {item.Name}");
+
+                itemIndex++;
+            }
+
+            userChoice = Console.ReadLine();
+
+            if (int.TryParse(userChoice, out itemIndex))
+            {
+                Item item = _trader.GiveItem(items[itemIndex - 1]);
+
+                _player.TakeItem(item);
+            }
+            else
+            {
+                Console.WriteLine("Incorrect choice");
+            }
         }
     }
 
     class Player
     {
-        private List<Product> _products = new List<Product>();
+        private List<Item> _items = new List<Item>();
 
         public void ShowItems()
         {
-            foreach (Product product in _products)
+            foreach (Item product in _items)
             {
-                //Console.WriteLine($"Item Name: {product.Name} | weight: {product.Weight}");
+                Console.WriteLine($"Item Name: {product.Name} | weight: {product.Weight}");
             }
         }
 
-        public void TakeProduct(Product product)
+        public void TakeItem(Item product)
         {
-            _products.Add(product);
+            _items.Add(product);
         }
     }
 
     class Trader
     {
-        private List<Product> _products = new List<Product>();
+        private List<Item> _items = new List<Item>();
 
         public Trader()
         {
-            AddProducts();
+            AddItems();
         }
 
-        public void ShowProducts()
+        public void ShowItems()
         {
-            foreach (Product product in _products)
+            foreach (Item product in _items)
             {
-                //Console.WriteLine($"Item Name: {product.Name} | weight: {product.Weight}");
+                Console.WriteLine($"Item Name: {product.Name} | weight: {product.Weight}");
             }
         }
 
-        public void GiveProduct()
+        public Item GiveItem(Item item)
         {
+            _items.Remove(item);
 
+            return item;
         }
 
-        private void AddProducts()
+        public List<Item> GetAllItems()
         {
-            _products.Add(new Map());
-            _products.Add(new Apple());
+            return new List<Item>(_items);
+        }
+
+        private void AddItems()
+        {
+            _items.Add(new Map());
+            _items.Add(new Apple());
         }
     }
 
-    abstract class Product
+    abstract class Item
     {
-
+        public string Name { get; protected set; }
+        public int Weight { get; protected set; }
     }
 
-    class Map : Product
+    class Map : Item
     {
-
+        public Map()
+        {
+            Name = "Map";
+            Weight = 2;
+        }
     }
 
-    class Apple : Product
+    class Apple : Item
     {
-
+        public Apple()
+        {
+            Name = "Apple";
+            Weight = 1;
+        }
     }
 }
