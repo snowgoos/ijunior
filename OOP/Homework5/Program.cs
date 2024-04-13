@@ -12,7 +12,7 @@
 
             string userInput;
             bool isExit = false;
-            Controller controller = new Controller(new Storage());
+            Library controller = new Library(new Storage());
 
             while (isExit == false)
             {
@@ -51,35 +51,40 @@
         }
     }
 
-    class Controller
+    class Library
     {
         private Storage _storage;
-        private string _bookName;
-        private string _bookAuthor;
-        private int _bookYear;
 
-        public Controller(Storage storage)
+        public Library(Storage storage)
         {
             _storage = storage;
         }
 
         public void AddBookAction()
         {
-            BookDataFill();
+            string bookName;
+            string bookAuthor;
+            int bookYear;
 
-            Book book = new Book(this._bookName, this._bookAuthor, this._bookYear);
+            FillBookData(out bookName, out bookAuthor, out bookYear);
+
+            Book book = new Book(bookName, bookAuthor, bookYear);
             _storage.AddBook(book);
         }
 
         public void RemoveBookAction()
         {
-            BookDataFill();
+            string bookName;
+            string bookAuthor;
+            int bookYear;
+
+            FillBookData(out bookName, out bookAuthor, out bookYear);
 
             var book = _storage.GetAllBooks()
                 .Find(item =>
-                    item.Name == this._bookName
-                    && item.Author == this._bookAuthor
-                    && item.Year == this._bookYear
+                    item.Name == bookName
+                    && item.Author == bookAuthor
+                    && item.Year == bookYear
                 );
 
             if (book != null)
@@ -135,11 +140,11 @@
 
             Console.WriteLine("Please enter book name:");
 
-            userInput = Console.ReadLine();
+            userInput = Console.ReadLine().ToLower();
 
             foreach (var book in _storage.GetAllBooks())
             {
-                if (book.Name == userInput)
+                if (book.Name.ToLower() == userInput)
                 {
                     RenderBookInfo(book);
                 }
@@ -152,11 +157,11 @@
 
             Console.WriteLine("Please enter book author:");
 
-            userInput = Console.ReadLine();
+            userInput = Console.ReadLine().ToLower();
 
             foreach (var book in _storage.GetAllBooks())
             {
-                if (book.Author == userInput)
+                if (book.Author.ToLower() == userInput)
                 {
                     RenderBookInfo(book);
                 }
@@ -193,17 +198,17 @@
             Console.WriteLine($"Book Name: {book.Name} | Author: {book.Author} | Year: {book.Year}");
         }
 
-        private void BookDataFill()
+        private void FillBookData(out string bookName, out string bookAuthor, out int bookYear)
         {
             Console.WriteLine("Please enter book name:");
-            this._bookName = Console.ReadLine();
+            bookName = Console.ReadLine();
 
             Console.WriteLine("Please enter book author:");
-            this._bookAuthor = Console.ReadLine();
+            bookAuthor = Console.ReadLine();
 
             Console.WriteLine("Please enter book year:");
 
-            if (int.TryParse(Console.ReadLine(), out this._bookYear) == false)
+            if (int.TryParse(Console.ReadLine(), out bookYear) == false)
             {
                 Console.WriteLine("Incorrect book year. Please enter a number");
 
@@ -242,7 +247,7 @@
 
         public List<Book> GetAllBooks()
         {
-            return _books;
+            return new List<Book>(_books);
         }
     }
 }
