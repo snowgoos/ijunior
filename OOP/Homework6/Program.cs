@@ -1,4 +1,6 @@
-﻿namespace ijunior.OOP.Homework6
+﻿using System.Data.SqlTypes;
+
+namespace ijunior.OOP.Homework6
 {
     class Program
     {
@@ -81,9 +83,19 @@
 
             if (int.TryParse(userChoice, out itemIndex))
             {
-                Item item = _trader.GiveItem(items[itemIndex - 1]);
+                Item item = items[itemIndex - 1];
 
-                _player.TakeItem(item);
+                if (_player.Money >= item.Price)
+                {
+                    _trader.GiveItem(items[itemIndex - 1]);
+                    _trader.AddMoney(item.Price);
+                    _player.TakeItem(item);
+                    _player.RemoveMoney(item.Price);
+                }
+                else
+                {
+                    Console.WriteLine("Not enough money");
+                }
             }
             else
             {
@@ -94,22 +106,34 @@
 
     abstract class Character
     {
-        protected List<Item> _items = new List<Item>();
+        protected List<Item> Items = new List<Item>();
+
+        public float Money { get; protected set; }
 
         public void ShowItems()
         {
-            foreach (Item product in _items)
+            foreach (Item item in Items)
             {
-                Console.WriteLine($"Item Name: {product.Name} | weight: {product.Weight}");
+                Console.WriteLine($"Item Name: {item.Name} | weight: {item.Weight} | price: {item.Price}");
             }
         }
     }
 
     class Player : Character
     {
+        public Player()
+        {
+            Money = 11;
+        }
+
         public void TakeItem(Item product)
         {
-            _items.Add(product);
+            Items.Add(product);
+        }
+
+        public void RemoveMoney(float money)
+        {
+            Money -= money;
         }
     }
 
@@ -117,25 +141,32 @@
     {
         public Trader()
         {
+            Money = 10;
+
             AddItems();
         }
 
         public Item GiveItem(Item item)
         {
-            _items.Remove(item);
+            Items.Remove(item);
 
             return item;
         }
 
+        public void AddMoney(float money)
+        {
+            Money += money;
+        }
+
         public List<Item> GetAllItems()
         {
-            return new List<Item>(_items);
+            return new List<Item>(Items);
         }
 
         private void AddItems()
         {
-            _items.Add(new Map());
-            _items.Add(new Apple());
+            Items.Add(new Map());
+            Items.Add(new Apple());
         }
     }
 
@@ -143,6 +174,7 @@
     {
         public string Name { get; protected set; }
         public int Weight { get; protected set; }
+        public float Price { get; protected set; }
     }
 
     class Map : Item
@@ -151,6 +183,7 @@
         {
             Name = "Map";
             Weight = 2;
+            Price = 10;
         }
     }
 
@@ -160,6 +193,7 @@
         {
             Name = "Apple";
             Weight = 1;
+            Price = 2;
         }
     }
 }
