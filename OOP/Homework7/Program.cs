@@ -4,60 +4,94 @@
     {
         static void Main(string[] args)
         {
-            string directionFrom;
-            string directionTo;
+            Station station = new Station();
+            bool isTrainSent = false;
 
-            while (true)
+            while (isTrainSent == false)
             {
                 Console.SetCursorPosition(0, 5);
-                Console.WriteLine("Please press Enter to start train plan creation");
-                Console.ReadKey();
 
-                Console.WriteLine("Please enter from derection");
-                directionFrom = Console.ReadLine();
+                station.AddDirection();
+                station.ShowInfo();
+                station.SellTickets();
+                station.ShowInfo();
+                station.FillTrain();
+                station.ShowInfo();
+                station.SendTrain();
 
-                Console.WriteLine("Please enter to derection");
-                directionTo = Console.ReadLine();
-
-                Direction direction = new Direction(directionFrom, directionTo);
-
-                Station.ShowInfo();
-
-                Console.WriteLine("Please press Enter to sell tickets");
-                Console.ReadKey();
-
-                int _minTickets = 0;
-                int _maxTickets = 100;
-
-                direction.SellTickets(Util.GenerateRandomNumber(_minTickets, _maxTickets));
-
-                Station.ShowInfo();
-
-                Console.WriteLine("Please press Enter to fill train");
-                Console.ReadKey();
-
-                Train train = new Train(direction);
-                train.AddCarriage();
-
-                Station.ShowInfo();
-
-                Console.WriteLine("Please press Enter to send train");
-                Console.ReadKey();
-                Console.Clear();
+                isTrainSent = true;
             }
         }
     }
 
     class Station
     {
-        public static void ShowInfo()
+        private Direction _direction;
+        private Train _train;
+
+        public int TicketsCount { get; private set; }
+
+        public void AddDirection()
+        {
+            string directionFrom;
+            string directionTo;
+
+            Console.WriteLine("Please press Enter to start train plan creation");
+            Console.ReadKey();
+
+            Console.WriteLine("Please enter from derection");
+            directionFrom = Console.ReadLine();
+
+            Console.WriteLine("Please enter to derection");
+            directionTo = Console.ReadLine();
+
+            _direction = new Direction(directionFrom, directionTo);
+        }
+
+        public void SellTickets()
+        {
+            int _minTickets = 0;
+            int _maxTickets = 100;
+
+            Console.WriteLine("Please press Enter to sell tickets");
+            Console.ReadKey();
+
+            TicketsCount = Util.GenerateRandomNumber(_minTickets, _maxTickets);
+        }
+
+        public void FillTrain()
+        {
+            Console.WriteLine("Please press Enter to fill train");
+            Console.ReadKey();
+
+            _train = new Train(_direction);
+            _train.AddCarriage(TicketsCount);
+        }
+
+        public void SendTrain()
+        {
+            Console.WriteLine("Please press Enter to send train");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        public void ShowInfo()
         {
             var lastCursorPossition = Console.GetCursorPosition();
 
             Console.SetCursorPosition(0, 0);
-            Console.WriteLine($"Direction: {Direction.From} - {Direction.To}");
-            Console.WriteLine($"Ticket count: {Direction.TicketsCount}");
-            Console.WriteLine($"Train capacity: {Train.Capacity}");
+
+            if (_direction is Direction)
+            {
+                Console.WriteLine($"Direction: {_direction.From} - {_direction.To}");
+            }
+
+            Console.WriteLine($"Ticket count: {TicketsCount}");
+
+            if (_train is Train)
+            {
+                Console.WriteLine($"Train capacity: {_train.Capacity}");
+            }
 
             Console.SetCursorPosition(lastCursorPossition.Left, lastCursorPossition.Top);
         }
@@ -72,13 +106,11 @@
             Direction = direction;
         }
 
-        public static int Capacity { get; private set; }
+        public int Capacity { get; private set; }
         public Direction Direction { get; private set; }
 
-        public void AddCarriage()
+        public void AddCarriage(int ticketCount)
         {
-            int ticketCount = Direction.TicketsCount;
-
             while (ticketCount > Capacity)
             {
                 Carriage carriage = new Carriage();
@@ -109,14 +141,8 @@
             To = to;
         }
 
-        public static string From { get; private set; }
-        public static string To { get; private set; }
-        public static int TicketsCount { get; private set; }
-
-        public void SellTickets(int count)
-        {
-            TicketsCount = count;
-        }
+        public string From { get; private set; }
+        public string To { get; private set; }
     }
 
     class Util

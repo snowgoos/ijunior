@@ -8,4 +8,8 @@
     <StartupObject>ijunior.OOP.Homework7.Program</StartupObject>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="OOP\Homework8\" />
+  </ItemGroup>
+
 </Project>
