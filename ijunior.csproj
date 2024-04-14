@@ -5,11 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>ijunior.OOP.Homework7.Program</StartupObject>
+    <StartupObject>ijunior.OOP.Homework8.Program</StartupObject>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="OOP\Homework8\" />
-  </ItemGroup>
 
 </Project>
