@@ -85,9 +85,8 @@
 
                 if (_player.Money >= item.Price)
                 {
-                    _player.RemoveMoney(item.Price);
-                    _trader.AddMoney(item.Price);
-                    _player.TakeItem(_trader.GiveItem(items[itemIndex - 1]));
+                    _trader.Sell(item);
+                    _player.Buy(item);
                 }
                 else
                 {
@@ -123,14 +122,10 @@
             Money = 11;
         }
 
-        public void TakeItem(Item product)
+        public void Buy(Item item)
         {
-            Items.Add(product);
-        }
-
-        public void RemoveMoney(float money)
-        {
-            Money -= money;
+            Items.Add(item);
+            Money -= item.Price;
         }
     }
 
@@ -143,16 +138,12 @@
             AddItems();
         }
 
-        public Item GiveItem(Item item)
+        public Item Sell(Item item)
         {
             Items.Remove(item);
+            Money += item.Price;
 
             return item;
-        }
-
-        public void AddMoney(float money)
-        {
-            Money += money;
         }
 
         public List<Item> GetAllItems()
