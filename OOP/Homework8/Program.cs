@@ -5,8 +5,11 @@
         static void Main(string[] args)
         {
             Arena arena = new Arena();
-            arena.SelectWarriors();
-            arena.StartFight();
+
+            if (arena.TrySelectWarriors())
+            {
+                arena.StartFight();
+            }
         }
     }
 
@@ -25,7 +28,7 @@
             _warriors.Add(new Druid());
         }
 
-        public void SelectWarriors()
+        public bool TrySelectWarriors()
         {
             string userInput;
             int selectedWarrior;
@@ -34,19 +37,33 @@
             ShowWarriors();
             userInput = Console.ReadLine();
 
-            if (int.TryParse(userInput, out selectedWarrior))
+            if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
             {
                 _warrior1 = _warriors[selectedWarrior - 1];
+            }
+            else 
+            {
+                Console.WriteLine("Incorrect warrior number");
+
+                return false;
             }
 
             Console.WriteLine("Please select second warrior");
             ShowWarriors();
             userInput = Console.ReadLine();
 
-            if (int.TryParse(userInput, out selectedWarrior))
+            if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
             {
                 _warrior2 = _warriors[selectedWarrior - 1];
             }
+            else
+            {
+                Console.WriteLine("Incorrect warrior number");
+
+                return false;
+            }
+
+            return true;
         }
 
         public void StartFight()
@@ -89,6 +106,11 @@
         {
             Console.WriteLine($"{_warrior1.Name}: HP: {_warrior1.Hp} | Damage: {_warrior1.Damage}");
             Console.WriteLine($"{_warrior2.Name}: HP: {_warrior2.Hp} | Damage: {_warrior2.Damage}");
+        }
+
+        private bool IsSelectedWarriorExist(int selectedWarrior)
+        {
+            return selectedWarrior >= 1 && selectedWarrior <= _warriors.Count;
         }
     }
 
