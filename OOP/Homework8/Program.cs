@@ -6,10 +6,8 @@
         {
             Arena arena = new Arena();
 
-            if (arena.TrySelectWarriors())
-            {
-                arena.StartFight();
-            }
+            arena.SelectWarriors();
+            arena.StartFight();
         }
     }
 
@@ -28,42 +26,55 @@
             _warriors.Add(new Druid());
         }
 
-        public bool TrySelectWarriors()
+        public void SelectWarriors()
         {
             string userInput;
             int selectedWarrior;
+            bool isWarrior1Selected = false;
+            bool isWarrior2Selected = false;
 
-            Console.WriteLine("Please select first warrior");
-            ShowWarriors();
-            userInput = Console.ReadLine();
-
-            if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
+            while (isWarrior1Selected == false)
             {
-                _warrior1 = _warriors[selectedWarrior - 1];
-            }
-            else 
-            {
-                Console.WriteLine("Incorrect warrior number");
+                Console.WriteLine("Please select first warrior");
+                ShowWarriors();
+                userInput = Console.ReadLine();
 
-                return false;
-            }
-
-            Console.WriteLine("Please select second warrior");
-            ShowWarriors();
-            userInput = Console.ReadLine();
-
-            if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
-            {
-                _warrior2 = _warriors[selectedWarrior - 1];
-            }
-            else
-            {
-                Console.WriteLine("Incorrect warrior number");
-
-                return false;
+                if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
+                {
+                    _warrior1 = _warriors[selectedWarrior - 1];
+                    isWarrior1Selected = true;
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect warrior number");
+                }
             }
 
-            return true;
+            while (isWarrior2Selected == false)
+            {
+                Console.WriteLine("Please select second warrior");
+                ShowWarriors();
+                userInput = Console.ReadLine();
+
+                if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
+                {
+                    _warrior2 = _warriors[selectedWarrior - 1];
+
+
+                    if (_warrior2.GetType() != _warrior1.GetType())
+                    {
+                        isWarrior2Selected = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please select different warrior");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect warrior number");
+                }
+            }
         }
 
         public void StartFight()
@@ -116,11 +127,11 @@
 
     abstract class Warrior
     {
+        abstract public void Attack(Warrior target);
+
         public string Name { get; protected set; }
         public float Hp { get; protected set; }
         public float Damage { get; protected set; }
-
-        abstract public void Attack(Warrior target);
 
         public virtual void TakeDamage(float damage)
         {
