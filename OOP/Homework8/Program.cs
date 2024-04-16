@@ -1,4 +1,7 @@
-﻿namespace ijunior.OOP.Homework8
+﻿using System;
+using System.Collections.Generic;
+
+namespace ijunior.OOP.Homework8
 {
     class Program
     {
@@ -7,7 +10,8 @@
             Arena arena = new Arena();
 
             arena.SelectWarriors();
-            arena.StartFight();
+            arena.Fight();
+            arena.ShowWinner();
         }
     }
 
@@ -28,70 +32,33 @@
 
         public void SelectWarriors()
         {
-            string userInput;
-            int selectedWarrior;
-            bool isWarrior1Selected = false;
-            bool isWarrior2Selected = false;
+            TrySelectWarrior(out _warrior1);
+            TrySelectWarrior(out _warrior2);
 
-            while (isWarrior1Selected == false)
+            if (_warrior2.GetType() == _warrior1.GetType())
             {
-                Console.WriteLine("Please select first warrior");
-                ShowWarriors();
-                userInput = Console.ReadLine();
-
-                if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
-                {
-                    _warrior1 = _warriors[selectedWarrior - 1];
-                    isWarrior1Selected = true;
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect warrior number");
-                }
-            }
-
-            while (isWarrior2Selected == false)
-            {
-                Console.WriteLine("Please select second warrior");
-                ShowWarriors();
-                userInput = Console.ReadLine();
-
-                if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
-                {
-                    _warrior2 = _warriors[selectedWarrior - 1];
-
-
-                    if (_warrior2.GetType() != _warrior1.GetType())
-                    {
-                        isWarrior2Selected = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please select different warrior");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect warrior number");
-                }
+                _warrior2 = _warrior2.Clone();
             }
         }
 
-        public void StartFight()
+        public void Fight()
         {
-            while (_warrior1.Hp > 0 && _warrior2.Hp > 0)
+            while (_warrior1.Health > 0 && _warrior2.Health > 0)
             {
                 _warrior1.Attack(_warrior2);
                 _warrior2.Attack(_warrior1);
 
                 ShowWarriorsInfo();
             }
+        }
 
-            if (_warrior1.Hp <= 0 && _warrior2.Hp <= 0)
+        public void ShowWinner()
+        {
+            if (_warrior1.Health <= 0 && _warrior2.Health <= 0)
             {
                 Console.WriteLine("Draw");
             }
-            else if (_warrior2.Hp <= 0)
+            else if (_warrior2.Health <= 0)
             {
                 Console.WriteLine($"Warrior {_warrior1.Name} win");
             }
@@ -113,10 +80,35 @@
             }
         }
 
+        private void TrySelectWarrior(out Warrior warrior)
+        {
+            string userInput;
+            int selectedWarrior;
+            bool isWarriorSelected = false;
+            warrior = null;
+
+            while (isWarriorSelected == false)
+            {
+                Console.WriteLine("Please select warrior");
+                ShowWarriors();
+                userInput = Console.ReadLine();
+
+                if (int.TryParse(userInput, out selectedWarrior) && IsSelectedWarriorExist(selectedWarrior))
+                {
+                    warrior = _warriors[selectedWarrior - 1];
+                    isWarriorSelected = true;
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect warrior number");
+                }
+            }
+        }
+
         private void ShowWarriorsInfo()
         {
-            Console.WriteLine($"{_warrior1.Name}: HP: {_warrior1.Hp} | Damage: {_warrior1.Damage}");
-            Console.WriteLine($"{_warrior2.Name}: HP: {_warrior2.Hp} | Damage: {_warrior2.Damage}");
+            Console.WriteLine($"{_warrior1.Name}: HP: {_warrior1.Health} | Damage: {_warrior1.Damage}");
+            Console.WriteLine($"{_warrior2.Name}: HP: {_warrior2.Health} | Damage: {_warrior2.Damage}");
         }
 
         private bool IsSelectedWarriorExist(int selectedWarrior)
@@ -127,15 +119,17 @@
 
     abstract class Warrior
     {
-        abstract public void Attack(Warrior target);
-
         public string Name { get; protected set; }
-        public float Hp { get; protected set; }
+        public float Health { get; protected set; }
         public float Damage { get; protected set; }
+
+        public abstract Warrior Clone();
+
+        public abstract void Attack(Warrior target);
 
         public virtual void TakeDamage(float damage)
         {
-            Hp -= damage;
+            Health -= damage;
         }
     }
 
@@ -147,8 +141,13 @@
         public Barbarian()
         {
             Name = "Barbarian";
-            Hp = 100;
+            Health = 100;
             Damage = 10;
+        }
+
+        public override Warrior Clone()
+        {
+            return new Barbarian();
         }
 
         public override void Attack(Warrior target)
@@ -170,8 +169,13 @@
         public Paladin()
         {
             Name = "Paladin";
-            Hp = 120;
+            Health = 120;
             Damage = 9;
+        }
+
+        public override Warrior Clone()
+        {
+            return new Paladin();
         }
 
         public override void Attack(Warrior target)
@@ -194,8 +198,13 @@
         public Assassin()
         {
             Name = "Assassin";
-            Hp = 80;
+            Health = 80;
             Damage = 12;
+        }
+
+        public override Warrior Clone()
+        {
+            return new Assassin();
         }
 
         public override void Attack(Warrior target)
@@ -213,8 +222,13 @@
         public Mage()
         {
             Name = "Mage";
-            Hp = 50;
+            Health = 50;
             Damage = 3;
+        }
+
+        public override Warrior Clone()
+        {
+            return new Mage();
         }
 
         public override void Attack(Warrior target)
@@ -226,7 +240,7 @@
         {
             base.TakeDamage(damage);
 
-            Hp += _heal;
+            Health += _heal;
         }
     }
 
@@ -236,8 +250,13 @@
         public Druid()
         {
             Name = "Druid";
-            Hp = 80;
+            Health = 80;
             Damage = 7;
+        }
+
+        public override Warrior Clone()
+        {
+            return new Druid();
         }
 
         public override void Attack(Warrior target)
