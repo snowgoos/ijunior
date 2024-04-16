@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ijunior.OOP.Homework8
+﻿namespace ijunior.OOP.Homework8
 {
     class Program
     {
