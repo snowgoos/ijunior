@@ -13,6 +13,7 @@
 
     class Shop
     {
+        private int _maxCustomers = 5;
         private List<Product> _products = new List<Product>();
         private List<Customer> _customers = new List<Customer>();
         private Queue<Customer> _customersQueue = new Queue<Customer>();
@@ -26,11 +27,10 @@
 
         public void Open()
         {
-            _customers.Add(new Customer());
-            _customers.Add(new Customer());
-            _customers.Add(new Customer());
-            _customers.Add(new Customer());
-            _customers.Add(new Customer());
+            for (int i = 0; i < _maxCustomers; i++)
+            {
+                _customers.Add(new Customer());
+            }
         }
 
         public void Work()
@@ -55,24 +55,21 @@
                 _customers.RemoveAt(RandomCustomer);
             }
 
-            Cashbox();
+            Service();
         }
 
-        private void Cashbox()
+        private void Service()
         {
             Customer customer;
             List<Product> customerBasket;
 
             while (_customersQueue.Count > 0)
             {
-                float productTotalPrice = 0;
+                float productTotalPrice;
                 customer = _customersQueue.Peek();
                 customerBasket = customer.GetBasket();
 
-                foreach (var product in customerBasket)
-                {
-                    productTotalPrice += product.Price;
-                }
+                productTotalPrice = GetBasketPrice(customerBasket);
 
                 Console.WriteLine("Total: " + productTotalPrice);
                 Console.WriteLine("Customer Money: " + customer.Money);
@@ -85,7 +82,7 @@
                     Console.WriteLine("Remove product price: " + product.Price);
 
                     customer.RemoveProduct(product);
-                    productTotalPrice -= product.Price;
+                    productTotalPrice = GetBasketPrice(customer.GetBasket());
                 }
 
                 Console.WriteLine("Total: " + productTotalPrice);
@@ -98,8 +95,20 @@
 
                 Console.WriteLine("Customer Money after pay: " + customer.Money);
 
-                customer = _customersQueue.Dequeue();
+                _customersQueue.Dequeue();
             }
+        }
+
+        private float GetBasketPrice(List<Product> basket)
+        {
+            float totalPrice = 0;
+
+            foreach (var product in basket)
+            {
+                totalPrice += product.Price;
+            }
+
+            return totalPrice;
         }
     }
 
