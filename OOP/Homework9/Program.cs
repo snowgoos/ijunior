@@ -6,8 +6,8 @@
         {
             Shop shop = new Shop();
 
-            shop.Open();
-            shop.Work();
+            shop.FillQueue();
+            shop.Service();
         }
     }
 
@@ -15,8 +15,7 @@
     {
         private int _maxCustomers = 5;
         private List<Product> _products = new List<Product>();
-        private List<Customer> _customers = new List<Customer>();
-        private Queue<Customer> _customersQueue = new Queue<Customer>();
+        private Queue<Customer> _customers = new Queue<Customer>();
 
         public Shop()
         {
@@ -25,48 +24,28 @@
             _products.Add(new Apple());
         }
 
-        public void Open()
-        {
-            for (int i = 0; i < _maxCustomers; i++)
-            {
-                _customers.Add(new Customer());
-            }
-        }
-
-        public void Work()
+        public void FillQueue()
         {
             Customer customer;
 
-            while (_customers.Count > 0)
+            for (int i = 0; i < _maxCustomers; i++)
             {
-                int RandomCustomer = Util.GenerateRandoNumber(0, _customers.Count - 1);
-                int ProductCount = Util.GenerateRandoNumber(1, 5);
+                customer = new Customer(_products);
+                customer.TakeProducts();
 
-                customer = _customers[RandomCustomer];
-
-                for (int i = 0; i < ProductCount; i++)
-                {
-                    int randomProduct = Util.GenerateRandoNumber(0, _products.Count - 1);
-
-                    customer.TakeProduct(_products[randomProduct]);
-                }
-
-                _customersQueue.Enqueue(customer);
-                _customers.RemoveAt(RandomCustomer);
+                _customers.Enqueue(customer);
             }
-
-            Service();
         }
 
-        private void Service()
+        public void Service()
         {
             Customer customer;
             List<Product> customerBasket;
 
-            while (_customersQueue.Count > 0)
+            while (_customers.Count > 0)
             {
                 float productTotalPrice;
-                customer = _customersQueue.Peek();
+                customer = _customers.Peek();
                 customerBasket = customer.GetBasket();
 
                 productTotalPrice = GetBasketPrice(customerBasket);
@@ -95,7 +74,7 @@
 
                 Console.WriteLine("Customer Money after pay: " + customer.Money);
 
-                _customersQueue.Dequeue();
+                _customers.Dequeue();
             }
         }
 
@@ -114,20 +93,30 @@
 
     class Customer
     {
-        private int _minMoney = 5;
-        private int _maxMoney = 25;
         private List<Product> _basket = new List<Product>();
+        private List<Product> _products = new List<Product>();
 
-        public Customer()
+        public Customer(List<Product> products)
         {
-            Money = Util.GenerateRandoNumber(_minMoney, _maxMoney);
+            int minMoney = 5;
+            int maxMoney = 25;
+
+            Money = Util.GenerateRandoNumber(minMoney, maxMoney);
+            _products = products;
         }
 
         public float Money { get; private set; }
 
-        public void TakeProduct(Product product)
+        public void TakeProducts()
         {
-            _basket.Add(product);
+            int productCount = Util.GenerateRandoNumber(1, 5);
+
+            for (int i = 0; i < productCount; i++)
+            {
+                int randomProduct = Util.GenerateRandoNumber(0, _products.Count - 1);
+
+                _basket.Add(_products[randomProduct]);
+            }
         }
 
         public void RemoveProduct(Product product)
