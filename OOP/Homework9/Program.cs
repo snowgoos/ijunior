@@ -28,8 +28,7 @@
         {
             for (int i = 0; i < _maxCustomers; i++)
             {
-                Customer customer = new Customer(_products);
-                customer.TakeProducts();
+                Customer customer = new Customer(_products.ToList());
 
                 _customers.Enqueue(customer);
             }
@@ -38,7 +37,6 @@
         public void Service()
         {
             Customer customer;
-            List<Product> customerBasket;
 
             while (_customers.Count > 0)
             {
@@ -56,7 +54,6 @@
     class Customer
     {
         private List<Product> _basket = new List<Product>();
-        private List<Product> _products = new List<Product>();
 
         public Customer(List<Product> products)
         {
@@ -64,20 +61,21 @@
             int maxMoney = 25;
 
             Money = Util.GenerateRandoNumber(minMoney, maxMoney);
-            _products = products;
+
+            TakeProducts(products);
         }
 
         public float Money { get; private set; }
 
-        public void TakeProducts()
+        public void TakeProducts(List<Product> products)
         {
             int productCount = Util.GenerateRandoNumber(1, 5);
 
             for (int i = 0; i < productCount; i++)
             {
-                int randomProduct = Util.GenerateRandoNumber(0, _products.Count - 1);
+                int randomProduct = Util.GenerateRandoNumber(0, products.Count - 1);
 
-                _basket.Add(_products[randomProduct]);
+                _basket.Add(products[randomProduct]);
             }
         }
 
@@ -104,10 +102,7 @@
             Console.WriteLine("Total: " + productTotalPrice);
             Console.WriteLine("Customer Money: " + Money);
 
-            foreach (var product in _basket)
-            {
-                BuyProduct(product.Price);
-            }
+            BuyProduct(GetBasketPrice(_basket));
         }
 
         private void BuyProduct(float price)
