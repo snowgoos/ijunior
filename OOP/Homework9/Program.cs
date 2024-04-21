@@ -83,7 +83,7 @@
         {
             float productTotalPrice;
 
-            productTotalPrice = GetBasketPrice(_basket);
+            productTotalPrice = GetBasketPrice();
 
             Console.WriteLine("Total: " + productTotalPrice);
             Console.WriteLine("Customer Money: " + Money);
@@ -96,13 +96,13 @@
                 Console.WriteLine("Remove product price: " + product.Price);
 
                 RemoveProduct(product);
-                productTotalPrice = GetBasketPrice(_basket);
+                productTotalPrice = GetBasketPrice();
             }
 
             Console.WriteLine("Total: " + productTotalPrice);
             Console.WriteLine("Customer Money: " + Money);
 
-            BuyProduct(GetBasketPrice(_basket));
+            BuyProduct(GetBasketPrice());
         }
 
         private void BuyProduct(float price)
@@ -115,11 +115,11 @@
             _basket.Remove(product);
         }
 
-        private float GetBasketPrice(List<Product> basket)
+        private float GetBasketPrice()
         {
             float totalPrice = 0;
 
-            foreach (var product in basket)
+            foreach (var product in _basket)
             {
                 totalPrice += product.Price;
             }

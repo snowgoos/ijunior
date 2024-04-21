@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>ijunior.OOP.Homework9.Program</StartupObject>
+    <StartupObject>ijunior.OOP.Homework10.Program</StartupObject>
   </PropertyGroup>
 
 </Project>
