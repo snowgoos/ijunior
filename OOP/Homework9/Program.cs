@@ -26,11 +26,9 @@
 
         public void FillQueue()
         {
-            Customer customer;
-
             for (int i = 0; i < _maxCustomers; i++)
             {
-                customer = new Customer(_products);
+                Customer customer = new Customer(_products);
                 customer.TakeProducts();
 
                 _customers.Enqueue(customer);
@@ -44,50 +42,14 @@
 
             while (_customers.Count > 0)
             {
-                float productTotalPrice;
                 customer = _customers.Peek();
-                customerBasket = customer.GetBasket();
 
-                productTotalPrice = GetBasketPrice(customerBasket);
-
-                Console.WriteLine("Total: " + productTotalPrice);
-                Console.WriteLine("Customer Money: " + customer.Money);
-
-                while (customer.Money < productTotalPrice)
-                {
-                    int randomProduct = Util.GenerateRandoNumber(0, customerBasket.Count - 1);
-                    Product product = customerBasket[randomProduct];
-                    Console.WriteLine("Remove product name: " + product.Name);
-                    Console.WriteLine("Remove product price: " + product.Price);
-
-                    customer.RemoveProduct(product);
-                    productTotalPrice = GetBasketPrice(customer.GetBasket());
-                }
-
-                Console.WriteLine("Total: " + productTotalPrice);
-                Console.WriteLine("Customer Money: " + customer.Money);
-
-                foreach (var product in customer.GetBasket())
-                {
-                    customer.BuyProduct(product);
-                }
+                customer.TryBuy();
 
                 Console.WriteLine("Customer Money after pay: " + customer.Money);
 
                 _customers.Dequeue();
             }
-        }
-
-        private float GetBasketPrice(List<Product> basket)
-        {
-            float totalPrice = 0;
-
-            foreach (var product in basket)
-            {
-                totalPrice += product.Price;
-            }
-
-            return totalPrice;
         }
     }
 
@@ -119,19 +81,55 @@
             }
         }
 
-        public void RemoveProduct(Product product)
+        public void TryBuy()
+        {
+            float productTotalPrice;
+
+            productTotalPrice = GetBasketPrice(_basket);
+
+            Console.WriteLine("Total: " + productTotalPrice);
+            Console.WriteLine("Customer Money: " + Money);
+
+            while (Money < productTotalPrice)
+            {
+                int randomProduct = Util.GenerateRandoNumber(0, _basket.Count - 1);
+                Product product = _basket[randomProduct];
+                Console.WriteLine("Remove product name: " + product.Name);
+                Console.WriteLine("Remove product price: " + product.Price);
+
+                RemoveProduct(product);
+                productTotalPrice = GetBasketPrice(_basket);
+            }
+
+            Console.WriteLine("Total: " + productTotalPrice);
+            Console.WriteLine("Customer Money: " + Money);
+
+            foreach (var product in _basket)
+            {
+                BuyProduct(product.Price);
+            }
+        }
+
+        private void BuyProduct(float price)
+        {
+            Money -= price;
+        }
+
+        private void RemoveProduct(Product product)
         {
             _basket.Remove(product);
         }
 
-        public void BuyProduct(Product product)
+        private float GetBasketPrice(List<Product> basket)
         {
-            Money -= product.Price;
-        }
+            float totalPrice = 0;
 
-        public List<Product> GetBasket()
-        {
-            return new List<Product>(_basket);
+            foreach (var product in basket)
+            {
+                totalPrice += product.Price;
+            }
+
+            return totalPrice;
         }
     }
 
