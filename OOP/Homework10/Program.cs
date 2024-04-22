@@ -29,11 +29,43 @@
 
             while (_troop1.SolderCount > 0 && _troop2.SolderCount > 0)
             {
-                _troop1.Attack(_troop2);
-                _troop2.Attack(_troop1);
+                _troop1.Attack(_troop2.GetSolders());
+                RemoveDead(_troop2);
+                _troop2.Attack(_troop1.GetSolders());
+                RemoveDead(_troop1);
             }
 
+            ShowWinner();
+        }
+
+        private void RemoveDead(Troop troop)
+        {
+            foreach (var solder in troop.GetSolders())
+            {
+                if (solder.Health <= 0)
+                {
+                    troop.RemoveSolder(solder);
+                }
+            }
+        }
+
+        private void ShowWinner()
+        {
             Console.WriteLine("End");
+
+            if (_troop1.SolderCount == 0 && _troop2.SolderCount == 0)
+            {
+                Console.WriteLine("Draw");
+            }
+            else if (_troop1.SolderCount > 0)
+            {
+                Console.WriteLine($"{_troop1.Country} win");
+            }
+            else
+            {
+                Console.WriteLine($"{_troop2.Country} win");
+            }
+
             Console.WriteLine($"{_troop1.Country} - solders: {_troop1.SolderCount}");
             Console.WriteLine($"{_troop2.Country} - solders: {_troop2.SolderCount}");
         }
@@ -47,18 +79,19 @@
         public Troop(string country)
         {
             Country = country;
+            int swordmanCount = Util.GenerateRandoNumber(0, _maxSolderCount);
 
-            Fill();
+            Fill(new Swordman(), swordmanCount);
+            Fill(new Axeman(), _maxSolderCount - swordmanCount);
         }
 
         public string Country { get; private set; }
         public int SolderCount => _solders.Count;
 
-        public void Attack(Troop target)
+        public void Attack(List<Solder> enemySolders)
         {
             foreach (var solder in _solders)
             {
-                List<Solder> enemySolders = target.getSolders();
                 int radonSolderIndex = Util.GenerateRandoNumber(0, enemySolders.Count);
 
                 if (enemySolders.Count == 0)
@@ -71,20 +104,10 @@
 
                 solder.Attack(enemySolder);
                 enemySolder.Attack(solder);
-
-                if (enemySolder.Health <= 0)
-                {
-                    target.RemoveSolder(enemySolder);
-                }
-
-                if (solder.Health <= 0)
-                {
-                    target.RemoveSolder(solder);
-                }
             }
         }
 
-        public List<Solder> getSolders()
+        public List<Solder> GetSolders()
         {
             return new List<Solder>(_solders);
         }
@@ -94,23 +117,11 @@
             _solders.Remove(solder);
         }
 
-        private void Fill()
+        private void Fill(Solder solder, int solderCount)
         {
-            Solder solder;
-            int swordmanCount = Util.GenerateRandoNumber(0, _maxSolderCount);
-
-            for (int i = 0; i < _maxSolderCount; i++)
+            for (int i = 0; i < solderCount; i++)
             {
-                if (i < swordmanCount)
-                {
-                    solder = new Swordman();
-                }
-                else
-                {
-                    solder = new Axeman();
-                }
-
-                _solders.Add(solder);
+                _solders.Add(solder.Clone());
             }
         }
     }
@@ -120,6 +131,7 @@
         public int Health { get; protected set; }
         public int Damage { get; protected set; }
 
+        public abstract Solder Clone();
         public abstract void Attack(Solder target);
 
         public virtual void TakeDamage(int damage)
@@ -141,6 +153,11 @@
             Damage = Util.GenerateRandoNumber(_minDamage, _maxDamage);
         }
 
+        public override Solder Clone()
+        {
+            return new Swordman();
+        }
+
         public override void Attack(Solder target)
         {
             target.TakeDamage(Damage);
@@ -160,6 +177,11 @@
         {
             Health = Util.GenerateRandoNumber(_minHealth, _maxHealth);
             Damage = Util.GenerateRandoNumber(_minDamage, _maxDamage);
+        }
+
+        public override Solder Clone()
+        {
+            return new Axeman();
         }
 
         public override void Attack(Solder target)
