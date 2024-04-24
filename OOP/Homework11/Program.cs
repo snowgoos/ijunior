@@ -66,7 +66,7 @@
             {
                 fish.Live();
 
-                if (fish.Age <= 0)
+                if (fish.Age > fish.MaxLifetime)
                 {
                     _fishes.Remove(fish);
                 }
@@ -124,10 +124,11 @@
         }
 
         public int Age { get; private set; }
+        public int MaxLifetime => _maxLifetime;
 
         public void Live()
         {
-            Age--;
+            Age++;
         }
     }
 
