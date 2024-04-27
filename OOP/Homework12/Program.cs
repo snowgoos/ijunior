@@ -5,11 +5,11 @@
         static void Main(string[] args)
         {
             string userInput;
-            int selctedAviary;
-            bool isExit = false;
+            int selctedCommand;
+            bool isRunning = true;
             Zoo zoo = new Zoo();
 
-            while (isExit == false)
+            while (isRunning)
             {
                 int aviaryNumber = 1;
 
@@ -22,13 +22,23 @@
                     aviaryNumber++;
                 }
 
+                Console.WriteLine($"{aviaryNumber}. Exit");
+
                 userInput = Console.ReadLine();
 
-                if (int.TryParse(userInput, out selctedAviary) && selctedAviary <= aviaryNumber)
+                if (int.TryParse(userInput, out selctedCommand))
                 {
-                    Aviary aviary = zoo.GetAviaries()[selctedAviary - 1];
+                    if (selctedCommand > 0 && selctedCommand < aviaryNumber)
+                    {
+                        Aviary aviary = zoo.GetAviaries()[selctedCommand - 1];
 
-                    aviary.ShowInfo();
+                        aviary.ShowInfo();
+                    }
+
+                    if (selctedCommand == aviaryNumber)
+                    {
+                        isRunning = false;
+                    }
                 }
             }
         }
