@@ -8,7 +8,6 @@
             int selctedAviary;
             bool isExit = false;
             Zoo zoo = new Zoo();
-            List<Aviary> zooAviaries = zoo.GetAviaries();
 
             while (isExit == false)
             {
@@ -16,7 +15,7 @@
 
                 Console.WriteLine("Please select aviary:");
 
-                foreach (var aviary in zooAviaries)
+                foreach (var aviary in zoo.GetAviaries())
                 {
                     Console.WriteLine($"{aviaryNumber}. {aviary.Name}");
 
@@ -25,9 +24,9 @@
 
                 userInput = Console.ReadLine();
 
-                if (int.TryParse(userInput, out selctedAviary))
+                if (int.TryParse(userInput, out selctedAviary) && selctedAviary <= aviaryNumber)
                 {
-                    Aviary aviary = zooAviaries[selctedAviary - 1];
+                    Aviary aviary = zoo.GetAviaries()[selctedAviary - 1];
 
                     aviary.ShowInfo();
                 }
@@ -41,10 +40,10 @@
 
         public Zoo()
         {
-            _aviaries.Add(new MonkeyAviary());
-            _aviaries.Add(new BearAviary());
-            _aviaries.Add(new LionAviary());
-            _aviaries.Add(new HorseAviary());
+            _aviaries.Add(new Aviary("Monkey", new Monkey()));
+            _aviaries.Add(new Aviary("Bear", new Bear()));
+            _aviaries.Add(new Aviary("Lion", new Lion()));
+            _aviaries.Add(new Aviary("Horse", new Horse()));
         }
 
         public List<Aviary> GetAviaries()
@@ -55,7 +54,19 @@
 
     class Aviary
     {
-        protected List<Animal> _animals = new List<Animal>();
+        private int _maxAnimalCount = 6;
+        private List<Animal> _animals = new List<Animal>();
+
+        public Aviary(string name, Animal animal)
+        {
+            Name = name;
+            int animalCount = Util.GenerateRandoNumber(1, _maxAnimalCount);
+
+            for (int i = 0; i < animalCount; i++)
+            {
+                _animals.Add(animal.Clone());
+            }
+        }
 
         public string Name { get; protected set; }
 
@@ -67,70 +78,6 @@
             foreach (var animal in _animals)
             {
                 Console.WriteLine($"Aminal gender: {animal.Gender}, voice: {animal.Voice}");
-            }
-        }
-    }
-
-    class MonkeyAviary : Aviary
-    {
-        private int _maxAnimalCount = 5;
-
-        public MonkeyAviary()
-        {
-            Name = "Monkey";
-            int monkeyCount = Util.GenerateRandoNumber(1, _maxAnimalCount);
-
-            for (int i = 0; i < monkeyCount; i++)
-            {
-                _animals.Add(new Monkey());
-            }
-        }
-    }
-
-    class BearAviary : Aviary
-    {
-        private int _maxAnimalCount = 3;
-
-        public BearAviary()
-        {
-            Name = "Bear";
-            int monkeyCount = Util.GenerateRandoNumber(1, _maxAnimalCount);
-
-            for (int i = 0; i < monkeyCount; i++)
-            {
-                _animals.Add(new Bear());
-            }
-        }
-    }
-
-    class LionAviary : Aviary
-    {
-        private int _maxAnimalCount = 4;
-
-        public LionAviary()
-        {
-            Name = "Lion";
-            int monkeyCount = Util.GenerateRandoNumber(1, _maxAnimalCount);
-
-            for (int i = 0; i < monkeyCount; i++)
-            {
-                _animals.Add(new Lion());
-            }
-        }
-    }
-
-    class HorseAviary : Aviary
-    {
-        private int _maxAnimalCount = 8;
-
-        public HorseAviary()
-        {
-            Name = "Horse";
-            int monkeyCount = Util.GenerateRandoNumber(1, _maxAnimalCount);
-
-            for (int i = 0; i < monkeyCount; i++)
-            {
-                _animals.Add(new Horse());
             }
         }
     }
@@ -152,6 +99,8 @@
 
         public Gender Gender { get; protected set; }
         public string Voice { get; protected set; }
+
+        public abstract Animal Clone();
     }
 
     class Monkey : Animal
@@ -159,6 +108,11 @@
         public Monkey() : base()
         {
             Voice = "vu-vu";
+        }
+
+        public override Animal Clone()
+        {
+            return new Monkey();
         }
     }
 
@@ -168,6 +122,11 @@
         {
             Voice = "rf-rf";
         }
+
+        public override Animal Clone()
+        {
+            return new Bear();
+        }
     }
 
     class Lion : Animal
@@ -176,6 +135,11 @@
         {
             Voice = "rg-rg";
         }
+
+        public override Animal Clone()
+        {
+            return new Lion();
+        }
     }
 
     class Horse : Animal
@@ -183,6 +147,11 @@
         public Horse() : base()
         {
             Voice = "pf-pf";
+        }
+
+        public override Animal Clone()
+        {
+            return new Horse();
         }
     }
 
